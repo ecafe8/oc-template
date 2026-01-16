@@ -7,7 +7,7 @@
     "dev:template": "turbo run dev --filter=@repo/web-template --filter=@repo/server-im-template",
     "lint": "turbo run lint",
     "check-types": "turbo run check-types",
-    "gen:web": "bash scripts/genAppWithTemplate.sh"
+    "gen:web": "oc add app web-template"
   },
   "devDependencies": {
     "@biomejs/biome": "2.3.8",
