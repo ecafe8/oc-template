@@ -1,11 +1,11 @@
-# AI-ZIM-BUN Monorepo
+# Octopus Monorepo
 ## What's inside?
 
 This Turborepo includes the following packages/apps:
 
 ### Apps and Packages
 
-- `web-template`: another [Next.js](https://nextjs.org/) app
+- `@repo/web-template`: [Next.js](https://nextjs.org/) app
 - `@repo/share-ui`: a stub React component library shared by both `web` and `docs` applications
 - `@repo/share-frontend`: a stub frontend utility library shared by both `web` and `docs` applications
 - `@repo/biome-config`: `biome` configurations
