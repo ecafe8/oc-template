@@ -1,5 +1,5 @@
 {
-  "name": "ai-zim-bun",
+  "name": "octopus-ai-monorepo",
   "private": true,
   "scripts": {
     "build": "turbo run build",
