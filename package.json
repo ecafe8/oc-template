@@ -4,7 +4,6 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
-    "dev:template": "turbo run dev --filter=@repo/web-template --filter=@repo/server-im-template",
     "lint": "turbo run lint",
     "check-types": "turbo run check-types",
     "gen:web": "oc add app web-template"
