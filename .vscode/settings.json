@@ -11,10 +11,7 @@
   ],
   "typescript.enablePromptUseWorkspaceTsdk": true,
 
-  "typescript.preferences.autoImportFileExcludePatterns": [
-    "next/router.d.ts",
-    "next/dist/client/router.d.ts"
-  ],
+  "typescript.preferences.autoImportFileExcludePatterns": ["next/router.d.ts", "next/dist/client/router.d.ts"],
   "[typescriptreact]": {
     "editor.defaultFormatter": "biomejs.biome"
   },
@@ -23,5 +20,9 @@
   },
   "[json]": {
     "editor.defaultFormatter": "vscode.json-language-features"
-  }
+  },
+  "[html]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "cSpell.words": ["realway"]
 }
