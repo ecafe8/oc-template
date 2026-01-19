@@ -24,6 +24,7 @@ import {
 import { cn } from "@repo/share-ui/utils";
 import { formatBytes } from "@repo/share-ui/utils/number";
 import { ImageIcon, TriangleAlert, Upload, XIcon, ZoomInIcon } from "lucide-react";
+import type React from "react";
 import { useState } from "react";
 import { LuFile } from "react-icons/lu";
 
@@ -64,7 +65,7 @@ export default function FilesUpload({ className, ...options }: FilesUploadProps)
   return (
     <div className={cn(className, "flex flex-col overflow-hidden")}>
       {/* Upload Area */}
-      <div
+      <section
         className={cn(
           "relative rounded-lg border border-dashed p-8 text-center transition-colors",
           isDragging ? "border-primary bg-primary/5" : "border-muted-foreground/25 hover:border-muted-foreground/50",
@@ -73,6 +74,7 @@ export default function FilesUpload({ className, ...options }: FilesUploadProps)
         onDragLeave={handleDragLeave}
         onDragOver={handleDragOver}
         onDrop={handleDrop}
+        aria-label="upload files"
       >
         <input {...getInputProps()} className="sr-only" />
 
@@ -99,7 +101,7 @@ export default function FilesUpload({ className, ...options }: FilesUploadProps)
             Select images
           </Button>
         </div>
-      </div>
+      </section>
 
       {/* Gallery Stats */}
       {files.length > 0 && (

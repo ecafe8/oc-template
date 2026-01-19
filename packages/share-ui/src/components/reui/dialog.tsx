@@ -12,6 +12,10 @@ const dialogContentVariants = cva(
     variants: {
       variant: {
         default: 'left-[50%] top-[50%] max-w-lg translate-x-[-50%] translate-y-[-50%] w-full',
+        sm: "left-[50%] top-[50%] max-w-sm translate-x-[-50%] translate-y-[-50%] w-full",
+        md: "left-[50%] top-[50%] max-w-md translate-x-[-50%] translate-y-[-50%] w-full",
+        lg: "left-[50%] top-[50%] max-w-3xl translate-x-[-50%] translate-y-[-50%] w-full",
+        xl: "left-[50%] top-[50%] max-w-5xl translate-x-[-50%] translate-y-[-50%] w-full",
         fullscreen: 'inset-5',
       },
     },
