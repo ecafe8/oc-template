@@ -1,6 +1,18 @@
+/**
+ * 引入后 vscode 才有提示
+ */
+@import "../../../packages/share-ui/src/styles/globals.css";
+
 @theme {
   --font-sans:
     "Geist", "Geist Fallback", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
     "Segoe UI Symbol", "Noto Color Emoji";
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+/**
+ * 自定义当前项目主题色
+ */
+:root {
+  --primary: var(--color-orange-600);
 }
