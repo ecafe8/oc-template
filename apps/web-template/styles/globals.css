@@ -3,6 +3,7 @@
  */
 @import "../../../packages/share-ui/src/styles/globals.css";
 
+
 @theme {
   --font-sans:
     "Geist", "Geist Fallback", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
@@ -16,3 +17,9 @@
 :root {
   --primary: var(--color-orange-600);
 }
+
+/**
+* 全局覆盖
+*/
+@import "./patches/scrollbar.css";
+@import "./patches/cursor.css";

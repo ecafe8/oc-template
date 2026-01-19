@@ -1,0 +1,23 @@
+button,
+input,
+a,
+[role="button"],
+[type="button"],
+[type="submit"] {
+  cursor: pointer;
+}
+
+button:disabled,
+input:disabled,
+a:disabled,
+[role="button"]:disabled,
+[type="button"]:disabled,
+[type="submit"]:disabled,
+button[disabled],
+input[disabled],
+a[disabled],
+[role="button"][disabled],
+[type="button"][disabled],
+[type="submit"][disabled] {
+  cursor: not-allowed;
+}
