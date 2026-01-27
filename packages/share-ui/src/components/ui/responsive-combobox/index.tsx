@@ -15,7 +15,6 @@ import { useIsMobile } from "@repo/share-ui/hooks/use-mobile";
 import { cn } from "@repo/share-ui/lib/utils";
 import { Check, ChevronsUpDown, Loader2 } from "lucide-react";
 import * as React from "react";
-import { useMemo } from "react";
 
 export interface ComboboxOption {
   value: string;

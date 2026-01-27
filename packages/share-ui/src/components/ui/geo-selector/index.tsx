@@ -1,5 +1,6 @@
 "use client";
 
+import type { ICity, ICountry, IState } from "@countrystatecity/countries";
 import * as React from "react";
 import { useCallback } from "react";
 import { AsyncCombobox } from "./async-combobox";
@@ -13,9 +14,9 @@ interface GeoSelectorProps {
   value?: GeoValues;
   defaultValue?: GeoValues;
   onChange?: (value: GeoValues) => void;
-  fetchCountries: () => Promise<any[]>;
-  fetchStates: (country: string) => Promise<any[]>;
-  fetchCities: (country: string, state: string) => Promise<any[]>;
+  fetchCountries: () => Promise<ICountry[]>;
+  fetchStates: (country: string) => Promise<IState[]>;
+  fetchCities: (country: string, state: string) => Promise<ICity[]>;
 }
 
 export function GeoSelector({
