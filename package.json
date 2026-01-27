@@ -6,7 +6,8 @@
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "check-types": "turbo run check-types",
-    "gen:web": "oc add app web-template"
+    "gen:web": "oc add app web-template",
+    "sync:ai-elements": "node scripts/sync-ai-elements.mjs"
   },
   "devDependencies": {
     "@types/react": "^19.2.2",
