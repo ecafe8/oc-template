@@ -136,8 +136,15 @@ export function GeoSelector({ value: valueProp, defaultValue, onChange }: GeoSel
       <ReuiAsyncCombobox
         label="国家"
         value={value.country}
-        fetcher={() => getCountries()}
+        fetcher={async () => {
+          const data = await getCountries()
+          return data.map((item: any) => ({
+            ...item,
+            countryCode: item.iso2,
+          }))
+        }}
         onSelect={handleCountryChange}
+        showFlag
       />
 
       <ReuiAsyncCombobox
@@ -145,7 +152,13 @@ export function GeoSelector({ value: valueProp, defaultValue, onChange }: GeoSel
         value={value.state}
         dependency={value.country}
         disabled={!value.country}
-        fetcher={() => getStatesOfCountry(value.country)}
+        fetcher={async () => {
+          const data = await getStatesOfCountry(value.country)
+          return data.map((item: any) => ({
+            ...item,
+            countryCode: item.iso2,
+          }))
+        }}
         onSelect={handleStateChange}
       />
 
@@ -154,7 +167,7 @@ export function GeoSelector({ value: valueProp, defaultValue, onChange }: GeoSel
         value={value.city}
         dependency={value.state}
         disabled={!value.state}
-        fetcher={() => getCitiesOfState(value.country, value.state)}
+        fetcher={async () => getCitiesOfState(value.country, value.state)}
         onSelect={handleCityChange}
       />
     </div>
