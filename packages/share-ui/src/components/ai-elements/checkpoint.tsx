@@ -2,15 +2,29 @@
 
 import { Button } from "@repo/share-ui/components/reui/button";
 import { Separator } from "@repo/share-ui/components/reui/separator";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@repo/share-ui/components/reui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@repo/share-ui/components/reui/tooltip";
 import { cn } from "@repo/share-ui/utils";
 import { BookmarkIcon, type LucideProps } from "lucide-react";
 import type { ComponentProps, HTMLAttributes } from "react";
 
 export type CheckpointProps = HTMLAttributes<HTMLDivElement>;
 
-export const Checkpoint = ({ className, children, ...props }: CheckpointProps) => (
-  <div className={cn("flex items-center gap-0.5 text-muted-foreground overflow-hidden", className)} {...props}>
+export const Checkpoint = ({
+  className,
+  children,
+  ...props
+}: CheckpointProps) => (
+  <div
+    className={cn(
+      "flex items-center gap-0.5 overflow-hidden text-muted-foreground",
+      className
+    )}
+    {...props}
+  >
     {children}
     <Separator />
   </div>
@@ -18,8 +32,14 @@ export const Checkpoint = ({ className, children, ...props }: CheckpointProps) =
 
 export type CheckpointIconProps = LucideProps;
 
-export const CheckpointIcon = ({ className, children, ...props }: CheckpointIconProps) =>
-  children ?? <BookmarkIcon className={cn("size-4 shrink-0", className)} {...props} />;
+export const CheckpointIcon = ({
+  className,
+  children,
+  ...props
+}: CheckpointIconProps) =>
+  children ?? (
+    <BookmarkIcon className={cn("size-4 shrink-0", className)} {...props} />
+  );
 
 export type CheckpointTriggerProps = ComponentProps<typeof Button> & {
   tooltip?: string;

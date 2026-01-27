@@ -8,19 +8,23 @@ import { createContext, useContext } from "react";
 
 type TranscriptionSegment = TranscriptionResult["segments"][number];
 
-type TranscriptionContextValue = {
+interface TranscriptionContextValue {
   segments: TranscriptionSegment[];
   currentTime: number;
   onTimeUpdate: (time: number) => void;
   onSeek?: (time: number) => void;
-};
+}
 
-const TranscriptionContext = createContext<TranscriptionContextValue | null>(null);
+const TranscriptionContext = createContext<TranscriptionContextValue | null>(
+  null
+);
 
 const useTranscription = () => {
   const context = useContext(TranscriptionContext);
   if (!context) {
-    throw new Error("Transcription components must be used within Transcription");
+    throw new Error(
+      "Transcription components must be used within Transcription"
+    );
   }
   return context;
 };
@@ -56,11 +60,16 @@ export const Transcription = ({
       }}
     >
       <div
-        className={cn("flex flex-wrap gap-1 text-sm leading-relaxed", className)}
+        className={cn(
+          "flex flex-wrap gap-1 text-sm leading-relaxed",
+          className
+        )}
         data-slot="transcription"
         {...props}
       >
-        {segments.filter((segment) => segment.text.trim()).map((segment, index) => children(segment, index))}
+        {segments
+          .filter((segment) => segment.text.trim())
+          .map((segment, index) => children(segment, index))}
       </div>
     </TranscriptionContext.Provider>
   );
@@ -71,10 +80,17 @@ export type TranscriptionSegmentProps = ComponentProps<"button"> & {
   index: number;
 };
 
-export const TranscriptionSegment = ({ segment, index, className, onClick, ...props }: TranscriptionSegmentProps) => {
+export const TranscriptionSegment = ({
+  segment,
+  index,
+  className,
+  onClick,
+  ...props
+}: TranscriptionSegmentProps) => {
   const { currentTime, onSeek } = useTranscription();
 
-  const isActive = currentTime >= segment.startSecond && currentTime < segment.endSecond;
+  const isActive =
+    currentTime >= segment.startSecond && currentTime < segment.endSecond;
   const isPast = currentTime >= segment.endSecond;
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -93,7 +109,7 @@ export const TranscriptionSegment = ({ segment, index, className, onClick, ...pr
         !(isActive || isPast) && "text-muted-foreground/60",
         onSeek && "cursor-pointer hover:text-foreground",
         !onSeek && "cursor-default",
-        className,
+        className
       )}
       data-active={isActive}
       data-index={index}

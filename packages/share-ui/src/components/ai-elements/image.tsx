@@ -1,3 +1,5 @@
+/** biome-ignore-all lint/correctness/useImageSize: "size will be handled by props" */
+
 import { cn } from "@repo/share-ui/utils";
 import type { Experimental_GeneratedImage } from "ai";
 
@@ -6,11 +8,19 @@ export type ImageProps = Experimental_GeneratedImage & {
   alt?: string;
 };
 
-export const Image = ({ base64, uint8Array, mediaType, ...props }: ImageProps) => (
+export const Image = ({
+  base64,
+  uint8Array,
+  mediaType,
+  ...props
+}: ImageProps) => (
   <img
     {...props}
     alt={props.alt}
-    className={cn("h-auto max-w-full overflow-hidden rounded-md", props.className)}
+    className={cn(
+      "h-auto max-w-full overflow-hidden rounded-md",
+      props.className
+    )}
     src={`data:${mediaType};base64,${base64}`}
   />
 );

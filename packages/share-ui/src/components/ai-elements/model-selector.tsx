@@ -9,17 +9,26 @@ import {
   CommandSeparator,
   CommandShortcut,
 } from "@repo/share-ui/components/reui/command";
-import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@repo/share-ui/components/reui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
+} from "@repo/share-ui/components/reui/dialog";
 import { cn } from "@repo/share-ui/utils";
 import type { ComponentProps, ReactNode } from "react";
 
 export type ModelSelectorProps = ComponentProps<typeof Dialog>;
 
-export const ModelSelector = (props: ModelSelectorProps) => <Dialog {...props} />;
+export const ModelSelector = (props: ModelSelectorProps) => (
+  <Dialog {...props} />
+);
 
 export type ModelSelectorTriggerProps = ComponentProps<typeof DialogTrigger>;
 
-export const ModelSelectorTrigger = (props: ModelSelectorTriggerProps) => <DialogTrigger {...props} />;
+export const ModelSelectorTrigger = (props: ModelSelectorTriggerProps) => (
+  <DialogTrigger {...props} />
+);
 
 export type ModelSelectorContentProps = ComponentProps<typeof DialogContent> & {
   title?: ReactNode;
@@ -31,47 +40,77 @@ export const ModelSelectorContent = ({
   title = "Model Selector",
   ...props
 }: ModelSelectorContentProps) => (
-  <DialogContent className={cn("p-0", className)} {...props}>
+  <DialogContent
+    className={cn(
+      "outline! border-none! p-0 outline-border! outline-solid!",
+      className
+    )}
+    {...props}
+  >
     <DialogTitle className="sr-only">{title}</DialogTitle>
-    <Command className="**:data-[slot=command-input-wrapper]:h-auto">{children}</Command>
+    <Command className="**:data-[slot=command-input-wrapper]:h-auto">
+      {children}
+    </Command>
   </DialogContent>
 );
 
 export type ModelSelectorDialogProps = ComponentProps<typeof CommandDialog>;
 
-export const ModelSelectorDialog = (props: ModelSelectorDialogProps) => <CommandDialog {...props} />;
+export const ModelSelectorDialog = (props: ModelSelectorDialogProps) => (
+  <CommandDialog {...props} />
+);
 
 export type ModelSelectorInputProps = ComponentProps<typeof CommandInput>;
 
-export const ModelSelectorInput = ({ className, ...props }: ModelSelectorInputProps) => (
+export const ModelSelectorInput = ({
+  className,
+  ...props
+}: ModelSelectorInputProps) => (
   <CommandInput className={cn("h-auto py-3.5", className)} {...props} />
 );
 
 export type ModelSelectorListProps = ComponentProps<typeof CommandList>;
 
-export const ModelSelectorList = (props: ModelSelectorListProps) => <CommandList {...props} />;
+export const ModelSelectorList = (props: ModelSelectorListProps) => (
+  <CommandList {...props} />
+);
 
 export type ModelSelectorEmptyProps = ComponentProps<typeof CommandEmpty>;
 
-export const ModelSelectorEmpty = (props: ModelSelectorEmptyProps) => <CommandEmpty {...props} />;
+export const ModelSelectorEmpty = (props: ModelSelectorEmptyProps) => (
+  <CommandEmpty {...props} />
+);
 
 export type ModelSelectorGroupProps = ComponentProps<typeof CommandGroup>;
 
-export const ModelSelectorGroup = (props: ModelSelectorGroupProps) => <CommandGroup {...props} />;
+export const ModelSelectorGroup = (props: ModelSelectorGroupProps) => (
+  <CommandGroup {...props} />
+);
 
 export type ModelSelectorItemProps = ComponentProps<typeof CommandItem>;
 
-export const ModelSelectorItem = (props: ModelSelectorItemProps) => <CommandItem {...props} />;
+export const ModelSelectorItem = (props: ModelSelectorItemProps) => (
+  <CommandItem {...props} />
+);
 
 export type ModelSelectorShortcutProps = ComponentProps<typeof CommandShortcut>;
 
-export const ModelSelectorShortcut = (props: ModelSelectorShortcutProps) => <CommandShortcut {...props} />;
+export const ModelSelectorShortcut = (props: ModelSelectorShortcutProps) => (
+  <CommandShortcut {...props} />
+);
 
-export type ModelSelectorSeparatorProps = ComponentProps<typeof CommandSeparator>;
+export type ModelSelectorSeparatorProps = ComponentProps<
+  typeof CommandSeparator
+>;
 
-export const ModelSelectorSeparator = (props: ModelSelectorSeparatorProps) => <CommandSeparator {...props} />;
+export const ModelSelectorSeparator = (props: ModelSelectorSeparatorProps) => (
+  <CommandSeparator {...props} />
+);
 
-export type ModelSelectorLogoProps = Omit<ComponentProps<"img">, "src" | "alt"> & {
+export type ModelSelectorLogoProps = Omit<
+  ComponentProps<"img">,
+  "src" | "alt"
+> & {
   provider:
     | "moonshotai-cn"
     | "lucidquery"
@@ -132,7 +171,11 @@ export type ModelSelectorLogoProps = Omit<ComponentProps<"img">, "src" | "alt"> 
     | (string & {});
 };
 
-export const ModelSelectorLogo = ({ provider, className, ...props }: ModelSelectorLogoProps) => (
+export const ModelSelectorLogo = ({
+  provider,
+  className,
+  ...props
+}: ModelSelectorLogoProps) => (
   <img
     {...props}
     alt={`${provider} logo`}
@@ -145,11 +188,14 @@ export const ModelSelectorLogo = ({ provider, className, ...props }: ModelSelect
 
 export type ModelSelectorLogoGroupProps = ComponentProps<"div">;
 
-export const ModelSelectorLogoGroup = ({ className, ...props }: ModelSelectorLogoGroupProps) => (
+export const ModelSelectorLogoGroup = ({
+  className,
+  ...props
+}: ModelSelectorLogoGroupProps) => (
   <div
     className={cn(
       "-space-x-1 flex shrink-0 items-center [&>img]:rounded-full [&>img]:bg-background [&>img]:p-px [&>img]:ring-1 dark:[&>img]:bg-foreground",
-      className,
+      className
     )}
     {...props}
   />
@@ -157,6 +203,9 @@ export const ModelSelectorLogoGroup = ({ className, ...props }: ModelSelectorLog
 
 export type ModelSelectorNameProps = ComponentProps<"span">;
 
-export const ModelSelectorName = ({ className, ...props }: ModelSelectorNameProps) => (
+export const ModelSelectorName = ({
+  className,
+  ...props
+}: ModelSelectorNameProps) => (
   <span className={cn("flex-1 truncate text-left", className)} {...props} />
 );

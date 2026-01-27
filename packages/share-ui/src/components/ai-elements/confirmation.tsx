@@ -1,7 +1,7 @@
 "use client";
 
+import { Alert, AlertDescription } from "@repo/share-ui/components/reui/alert";
 import { Button } from "@repo/share-ui/components/reui/button";
-import { Alert, AlertDescription } from "@repo/share-ui/components/shadcn/alert";
 import { cn } from "@repo/share-ui/utils";
 import type { ToolUIPart } from "ai";
 import { type ComponentProps, createContext, type ReactNode, useContext } from "react";
@@ -34,10 +34,10 @@ type ToolUIPartApproval =
     }
   | undefined;
 
-type ConfirmationContextValue = {
+interface ConfirmationContextValue {
   approval: ToolUIPartApproval;
   state: ToolUIPart["state"];
-};
+}
 
 const ConfirmationContext = createContext<ConfirmationContextValue | null>(null);
 
@@ -74,9 +74,9 @@ export const ConfirmationTitle = ({ className, ...props }: ConfirmationTitleProp
   <AlertDescription className={cn("inline", className)} {...props} />
 );
 
-export type ConfirmationRequestProps = {
+export interface ConfirmationRequestProps {
   children?: ReactNode;
-};
+}
 
 export const ConfirmationRequest = ({ children }: ConfirmationRequestProps) => {
   const { state } = useConfirmation();
@@ -89,9 +89,9 @@ export const ConfirmationRequest = ({ children }: ConfirmationRequestProps) => {
   return children;
 };
 
-export type ConfirmationAcceptedProps = {
+export interface ConfirmationAcceptedProps {
   children?: ReactNode;
-};
+}
 
 export const ConfirmationAccepted = ({ children }: ConfirmationAcceptedProps) => {
   const { approval, state } = useConfirmation();
@@ -107,9 +107,9 @@ export const ConfirmationAccepted = ({ children }: ConfirmationAcceptedProps) =>
   return children;
 };
 
-export type ConfirmationRejectedProps = {
+export interface ConfirmationRejectedProps {
   children?: ReactNode;
-};
+}
 
 export const ConfirmationRejected = ({ children }: ConfirmationRejectedProps) => {
   const { approval, state } = useConfirmation();

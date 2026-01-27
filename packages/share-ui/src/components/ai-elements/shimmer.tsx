@@ -4,13 +4,13 @@ import { cn } from "@repo/share-ui/utils";
 import { motion } from "motion/react";
 import { type CSSProperties, type ElementType, type JSX, memo, useMemo } from "react";
 
-export type TextShimmerProps = {
-  children: string;
+export interface TextShimmerProps {
+  children?: string;
   as?: ElementType;
   className?: string;
   duration?: number;
   spread?: number;
-};
+}
 
 const ShimmerComponent = ({ children, as: Component = "p", className, duration = 2, spread = 2 }: TextShimmerProps) => {
   const MotionComponent = motion.create(Component as keyof JSX.IntrinsicElements);

@@ -1,28 +1,54 @@
 "use client";
 
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@repo/share-ui/components/reui/collapsible";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@repo/share-ui/components/reui/tabs";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@repo/share-ui/components/reui/collapsible";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@repo/share-ui/components/reui/tabs";
 import { cn } from "@repo/share-ui/utils";
 import type { ToolUIPart } from "ai";
 import { ChevronDownIcon, Code } from "lucide-react";
 import type { ComponentProps } from "react";
-import { CodeBlock, CodeBlockCopyButton } from "./code-block";
 import { getStatusBadge } from "./tool";
 
 export type SandboxRootProps = ComponentProps<typeof Collapsible>;
 
 export const Sandbox = ({ className, ...props }: SandboxRootProps) => (
-  <Collapsible className={cn("not-prose group mb-4 w-full rounded-md border", className)} defaultOpen {...props} />
+  <Collapsible
+    className={cn(
+      "not-prose group mb-4 w-full overflow-hidden rounded-md border",
+      className
+    )}
+    defaultOpen
+    {...props}
+  />
 );
 
-export type SandboxHeaderProps = {
+export interface SandboxHeaderProps {
   title?: string;
   state: ToolUIPart["state"];
   className?: string;
-};
+}
 
-export const SandboxHeader = ({ className, title, state, ...props }: SandboxHeaderProps) => (
-  <CollapsibleTrigger className={cn("flex w-full items-center justify-between gap-4 p-3", className)} {...props}>
+export const SandboxHeader = ({
+  className,
+  title,
+  state,
+  ...props
+}: SandboxHeaderProps) => (
+  <CollapsibleTrigger
+    className={cn(
+      "flex w-full items-center justify-between gap-4 p-3",
+      className
+    )}
+    {...props}
+  >
     <div className="flex items-center gap-2">
       <Code className="size-4 text-muted-foreground" />
       <span className="font-medium text-sm">{title}</span>
@@ -34,11 +60,14 @@ export const SandboxHeader = ({ className, title, state, ...props }: SandboxHead
 
 export type SandboxContentProps = ComponentProps<typeof CollapsibleContent>;
 
-export const SandboxContent = ({ className, ...props }: SandboxContentProps) => (
+export const SandboxContent = ({
+  className,
+  ...props
+}: SandboxContentProps) => (
   <CollapsibleContent
     className={cn(
       "data-[state=closed]:fade-out-0 data-[state=closed]:slide-out-to-top-2 data-[state=open]:slide-in-from-top-2 outline-none data-[state=closed]:animate-out data-[state=open]:animate-in",
-      className,
+      className
     )}
     {...props}
   />
@@ -47,28 +76,46 @@ export const SandboxContent = ({ className, ...props }: SandboxContentProps) => 
 export type SandboxTabsProps = ComponentProps<typeof Tabs>;
 
 export const SandboxTabs = ({ className, ...props }: SandboxTabsProps) => (
-  <Tabs className={cn("w-full", className)} {...props} />
+  <Tabs className={cn("w-full gap-0", className)} {...props} />
 );
 
 export type SandboxTabsBarProps = ComponentProps<"div">;
 
-export const SandboxTabsBar = ({ className, ...props }: SandboxTabsBarProps) => (
-  <div className={cn("flex w-full items-center border-border border-t border-b", className)} {...props} />
+export const SandboxTabsBar = ({
+  className,
+  ...props
+}: SandboxTabsBarProps) => (
+  <div
+    className={cn(
+      "flex w-full items-center border-border border-t border-b",
+      className
+    )}
+    {...props}
+  />
 );
 
 export type SandboxTabsListProps = ComponentProps<typeof TabsList>;
 
-export const SandboxTabsList = ({ className, ...props }: SandboxTabsListProps) => (
-  <TabsList className={cn("h-auto rounded-none border-0 bg-transparent p-0", className)} {...props} />
+export const SandboxTabsList = ({
+  className,
+  ...props
+}: SandboxTabsListProps) => (
+  <TabsList
+    className={cn("h-auto rounded-none border-0 bg-transparent p-0", className)}
+    {...props}
+  />
 );
 
 export type SandboxTabsTriggerProps = ComponentProps<typeof TabsTrigger>;
 
-export const SandboxTabsTrigger = ({ className, ...props }: SandboxTabsTriggerProps) => (
+export const SandboxTabsTrigger = ({
+  className,
+  ...props
+}: SandboxTabsTriggerProps) => (
   <TabsTrigger
     className={cn(
       "rounded-none border-0 border-transparent border-b-2 px-4 py-2 font-medium text-muted-foreground text-sm transition-colors data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-foreground data-[state=active]:shadow-none",
-      className,
+      className
     )}
     {...props}
   />
@@ -76,22 +123,9 @@ export const SandboxTabsTrigger = ({ className, ...props }: SandboxTabsTriggerPr
 
 export type SandboxTabContentProps = ComponentProps<typeof TabsContent>;
 
-export const SandboxTabContent = ({ className, ...props }: SandboxTabContentProps) => (
+export const SandboxTabContent = ({
+  className,
+  ...props
+}: SandboxTabContentProps) => (
   <TabsContent className={cn("mt-0 text-sm", className)} {...props} />
-);
-
-export type SandboxCodeProps = ComponentProps<typeof CodeBlock>;
-
-export const SandboxCode = ({ className, ...props }: SandboxCodeProps) => (
-  <CodeBlock className={cn("border-0", className)} {...props}>
-    <CodeBlockCopyButton className="opacity-0 transition-opacity duration-200 group-hover:opacity-100" size="sm" />
-  </CodeBlock>
-);
-
-export type SandboxOutputProps = Omit<ComponentProps<typeof CodeBlock>, "language">;
-
-export const SandboxOutput = ({ className, ...props }: SandboxOutputProps) => (
-  <CodeBlock className={cn("border-0", className)} language="log" {...props}>
-    <CodeBlockCopyButton className="opacity-0 transition-opacity duration-200 group-hover:opacity-100" size="sm" />
-  </CodeBlock>
 );
