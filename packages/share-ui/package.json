@@ -22,6 +22,7 @@
   "dependencies": {
     "@base-ui-components/react": "^1.0.0-rc.0",
     "@countrystatecity/countries": "^1.0.5",
+    "@headless-tree/core": "^1.6.3",
     "@radix-ui/react-dialog": "^1.1.15",
     "@radix-ui/react-hover-card": "^1.1.15",
     "@radix-ui/react-slot": "^1.2.4",
