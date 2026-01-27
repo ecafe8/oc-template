@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import type { GeoOption } from "./types";
 
 // --- 内部封装：适配 reui 的异步搜索组件 ---
-export function ReuiAsyncCombobox({
+export function AsyncCombobox({
   label,
   value,
   onSelect,

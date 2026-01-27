@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { useCallback } from "react";
-import { ReuiAsyncCombobox } from "./async-combobox";
+import { AsyncCombobox } from "./async-combobox";
 export interface GeoValues {
   country: string;
   state: string;
@@ -81,7 +81,7 @@ export function GeoSelector({
 
   return (
     <div className="space-y-4 w-full max-w-sm">
-      <ReuiAsyncCombobox
+      <AsyncCombobox
         label="国家"
         value={value.country}
         fetcher={_fetchCountries}
@@ -89,7 +89,7 @@ export function GeoSelector({
         showFlag
       />
 
-      <ReuiAsyncCombobox
+      <AsyncCombobox
         label="省/州"
         value={value.state}
         dependency={value.country}
@@ -98,7 +98,7 @@ export function GeoSelector({
         onSelect={handleStateChange}
       />
 
-      <ReuiAsyncCombobox
+      <AsyncCombobox
         label="城市"
         value={value.city}
         dependency={value.state}
