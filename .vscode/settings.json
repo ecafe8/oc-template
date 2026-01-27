@@ -34,7 +34,6 @@
     "editor.defaultFormatter": "biomejs.biome"
   },
   "cSpell.words": ["realway"],
-  "tailwindCSS.experimental.config": "packages/share-ui/src/styles/globals.css",
   "tailwindCSS.includeLanguages": {
     "typescriptreact": "javascriptreact"
   }
