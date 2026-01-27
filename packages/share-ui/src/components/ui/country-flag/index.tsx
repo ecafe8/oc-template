@@ -4,17 +4,17 @@ import type { ElementType } from "react";
 import { cn } from "@repo/share-ui/lib/utils";
 
 export default function CountryFlag({
-  iso2,
+  countryCode,
   className,
 }: {
-  iso2: string;
+  countryCode: string;
   className?: string;
 }) {
   const FlagComponent = (Flags as Record<string, ElementType>)[
-    iso2.toUpperCase()
+    countryCode.toUpperCase()
   ];
 
-  if (FlagComponent && hasFlag(iso2.toUpperCase())) {
+  if (FlagComponent && hasFlag(countryCode.toUpperCase())) {
     return <FlagComponent className={className} />;
   }
 
@@ -22,20 +22,20 @@ export default function CountryFlag({
 }
 
 export function CountryFlagWithName({
-  iso2,
+  countryCode,
   name,
   className,
 }: {
-  iso2: string;
+  countryCode: string;
   name?: string;
   className?: string;
 }) {
   return (
     <div className={cn("flex gap-1.5 items-center", className)}>
       <div className="shrink-0 w-6 h-4">
-        <CountryFlag iso2={iso2} />
+        <CountryFlag countryCode={countryCode} />
       </div>
-      <div className=" truncate ">{name || iso2.toUpperCase()}</div>
+      <div className=" truncate ">{name || countryCode.toUpperCase()}</div>
     </div>
   );
 }

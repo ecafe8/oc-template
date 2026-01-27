@@ -3,12 +3,13 @@
 import * as React from "react"
 import { getCountries, getStatesOfCountry, getCitiesOfState } from '@countrystatecity/countries'
 
-import { ResponsiveCombobox } from "@repo/share-ui/components/ui/responsive-combobox"
+import CountryFlag from "@repo/share-ui/components/ui/country-flag"
+import { type ComboboxOption, ResponsiveCombobox } from "@repo/share-ui/components/ui/responsive-combobox"
 
 interface GeoOption {
   id: number | string
   name: string
-  iso2?: string
+  countryCode?: string
   emoji?: string
 }
 
@@ -20,6 +21,7 @@ export function ReuiAsyncCombobox({
   fetcher,
   dependency,
   disabled = false,
+  showFlag = false,
 }: {
   label: string
   value: string
@@ -27,8 +29,9 @@ export function ReuiAsyncCombobox({
   fetcher: () => Promise<GeoOption[]>
   dependency?: string
   disabled?: boolean
+  showFlag?: boolean
 }) {
-  const [options, setOptions] = React.useState<GeoOption[]>([])
+  const [options, setOptions] = React.useState<ComboboxOption[]>([])
   const [loading, setLoading] = React.useState(false)
 
   React.useEffect(() => {
@@ -41,7 +44,25 @@ export function ReuiAsyncCombobox({
       setLoading(true)
       try {
         const data = await fetcher()
-        setOptions(data)
+        setOptions(
+          data.map((opt) => {
+            const internalValue = opt.countryCode || opt.name
+            return {
+              value: internalValue,
+              label: (
+                <span className="flex items-center gap-2">
+                  {showFlag && opt.countryCode ? (
+                    <CountryFlag countryCode={opt.countryCode} className="w-6 object-contain" />
+                  ) : (
+                    opt.emoji
+                  )}
+                  {opt.name}
+                </span>
+              ),
+              keywords: [opt.name],
+            }
+          })
+        )
       } catch (error) {
         console.error(`Fetch error [${label}]:`, error)
       } finally {

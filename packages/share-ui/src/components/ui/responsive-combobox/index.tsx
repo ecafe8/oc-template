@@ -26,11 +26,17 @@ import {
 } from "@repo/share-ui/components/reui/drawer"
 import { useMemo } from "react"
 
+export interface ComboboxOption {
+  value: string
+  label: React.ReactNode
+  keywords?: string[]
+}
+
 interface ResponsiveComboboxProps {
   label: string
   value: string
   onSelect: (val: string) => void
-  options: any[]
+  options: ComboboxOption[]
   loading?: boolean
   disabled?: boolean
 }
@@ -46,7 +52,7 @@ export function ResponsiveCombobox({
   const [open, setOpen] = React.useState(false)
   const isDesktop = useMemo(() => !useIsMobile(), [])
 
-  const selectedItem = options.find((opt) => (opt.iso2 || opt.name) === value)
+  const selectedItem = options.find((opt) => opt.value === value)
 
   const Content = (
     <Command>
@@ -54,23 +60,20 @@ export function ResponsiveCombobox({
       <CommandList>
         <CommandEmpty>未找到结果</CommandEmpty>
         <CommandGroup>
-          {options.map((opt) => {
-            const internalValue = opt.iso2 || opt.name
-            return (
-              <CommandItem
-                key={opt.id || opt.name}
-                value={opt.name}
-                onSelect={() => {
-                  onSelect(internalValue)
-                  setOpen(false)
-                }}
-              >
-                <Check className={cn("mr-2 h-4 w-4", value === internalValue ? "opacity-100" : "opacity-0")} />
-                {opt.emoji && <span className="mr-2">{opt.emoji}</span>}
-                {opt.name}
-              </CommandItem>
-            )
-          })}
+          {options.map((opt) => (
+            <CommandItem
+              key={opt.value}
+              value={opt.value} // cmdk uses this for filtering if keywords not provided? actually cmdk uses textContent by default or value prop
+              keywords={opt.keywords}
+              onSelect={() => {
+                onSelect(opt.value)
+                setOpen(false)
+              }}
+            >
+              <Check className={cn("mr-2 h-4 w-4", value === opt.value ? "opacity-100" : "opacity-0")} />
+              {opt.label}
+            </CommandItem>
+          ))}
         </CommandGroup>
       </CommandList>
     </Command>
@@ -86,8 +89,8 @@ export function ResponsiveCombobox({
       {loading ? (
         <Loader2 className="h-4 w-4 animate-spin mr-2" />
       ) : (
-        <span className="truncate">
-          {selectedItem ? `${selectedItem.emoji || ''} ${selectedItem.name}` : `选择${label}...`}
+        <span className="truncate flex items-center">
+          {selectedItem ? selectedItem.label : `选择${label}...`}
         </span>
       )}
       <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
