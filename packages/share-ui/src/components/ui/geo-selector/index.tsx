@@ -61,7 +61,6 @@ export function GeoSelector({
     const data = await fetchCountries();
     return data.map((item: any) => ({
       ...item,
-      countryCode: item.iso2,
     }));
   }, [fetchCountries]);
 
@@ -70,7 +69,6 @@ export function GeoSelector({
     const data = await fetchStates(value.country);
     return data.map((item: any) => ({
       ...item,
-      countryCode: item.iso2,
     }));
   }, [value.country, fetchStates]);
 

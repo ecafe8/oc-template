@@ -31,37 +31,50 @@ export function AsyncCombobox({
       setOptions([]);
       return;
     }
+
+    let isMounted = true;
+
     const loadData = async () => {
       setLoading(true);
       try {
         const data = await fetcher();
-        setOptions(
-          data.map((opt) => {
-            const internalValue = opt.countryCode || opt.name;
-            return {
-              value: internalValue,
-              label: (
-                <span className="flex items-center gap-2">
-                  {showFlag && opt.countryCode ? (
-                    <CountryFlag countryCode={opt.countryCode} className="w-6 object-contain" />
-                  ) : (
-                    opt.emoji
-                  )}
-                  {opt.name}
-                </span>
-              ),
-              keywords: [opt.name],
-            };
-          }),
-        );
+        if (isMounted) {
+          setOptions(
+            data.map((opt) => {
+              const internalValue = opt.iso2 || opt.name;
+              return {
+                value: internalValue,
+                label: (
+                  <span className="flex items-center gap-2">
+                    {showFlag && opt.iso2 ? (
+                      <CountryFlag countryCode={opt.iso2} className="w-6 object-contain" />
+                    ) : (
+                      opt.emoji
+                    )}
+                    {opt.name}
+                  </span>
+                ),
+                keywords: [opt.name],
+              };
+            }),
+          );
+        }
       } catch (error) {
-        console.error(`Fetch error [${label}]:`, error);
+        if (isMounted) {
+          console.error(`Fetch error [${label}]:`, error);
+        }
       } finally {
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     };
     loadData();
-  }, [dependency, disabled]);
+
+    return () => {
+      isMounted = false;
+    };
+  }, [dependency, disabled, fetcher]);
 
   return (
     <div className="flex flex-col gap-2 w-full">
