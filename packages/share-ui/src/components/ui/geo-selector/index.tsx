@@ -1,12 +1,7 @@
 "use client";
 
 import * as React from "react";
-import {
-  getCountries,
-  getStatesOfCountry,
-  getCitiesOfState,
-} from "@countrystatecity/countries";
-
+import { useCallback } from "react";
 import { ReuiAsyncCombobox } from "./async-combobox";
 export interface GeoValues {
   country: string;
@@ -18,9 +13,15 @@ interface GeoSelectorProps {
   value?: GeoValues;
   defaultValue?: GeoValues;
   onChange?: (value: GeoValues) => void;
+  fetchCountries: () => Promise<any[]>;
+  fetchStates: (country: string) => Promise<any[]>;
+  fetchCities: (country: string, state: string) => Promise<any[]>;
 }
 
 export function GeoSelector({
+  fetchCountries,
+  fetchStates,
+  fetchCities,
   value: valueProp,
   defaultValue,
   onChange,
@@ -56,18 +57,34 @@ export function GeoSelector({
     onChange?.(newValue);
   };
 
+  const _fetchCountries = useCallback(async () => {
+    const data = await fetchCountries();
+    return data.map((item: any) => ({
+      ...item,
+      countryCode: item.iso2,
+    }));
+  }, [fetchCountries]);
+
+  const _fetchStates = useCallback(async () => {
+    if (!value.country) return [];
+    const data = await fetchStates(value.country);
+    return data.map((item: any) => ({
+      ...item,
+      countryCode: item.iso2,
+    }));
+  }, [value.country, fetchStates]);
+
+  const _fetchCities = useCallback(async () => {
+    if (!value.country || !value.state) return [];
+    return fetchCities(value.country, value.state);
+  }, [value.country, value.state, fetchCities]);
+
   return (
     <div className="space-y-4 w-full max-w-sm">
       <ReuiAsyncCombobox
         label="国家"
         value={value.country}
-        fetcher={async () => {
-          const data = await getCountries();
-          return data.map((item: any) => ({
-            ...item,
-            countryCode: item.iso2,
-          }));
-        }}
+        fetcher={_fetchCountries}
         onSelect={handleCountryChange}
         showFlag
       />
@@ -77,13 +94,7 @@ export function GeoSelector({
         value={value.state}
         dependency={value.country}
         disabled={!value.country}
-        fetcher={async () => {
-          const data = await getStatesOfCountry(value.country);
-          return data.map((item: any) => ({
-            ...item,
-            countryCode: item.iso2,
-          }));
-        }}
+        fetcher={_fetchStates}
         onSelect={handleStateChange}
       />
 
@@ -92,7 +103,7 @@ export function GeoSelector({
         value={value.city}
         dependency={value.state}
         disabled={!value.state}
-        fetcher={async () => getCitiesOfState(value.country, value.state)}
+        fetcher={_fetchCities}
         onSelect={handleCityChange}
       />
     </div>

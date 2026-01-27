@@ -2,7 +2,7 @@
 
 import CountryFlag from "@repo/share-ui/components/ui/country-flag";
 import { type ComboboxOption, ResponsiveCombobox } from "@repo/share-ui/components/ui/responsive-combobox";
-import * as React from "react";
+import { useEffect, useState } from "react";
 import type { GeoOption } from "./types";
 
 // --- 内部封装：适配 reui 的异步搜索组件 ---
@@ -23,15 +23,14 @@ export function ReuiAsyncCombobox({
   disabled?: boolean;
   showFlag?: boolean;
 }) {
-  const [options, setOptions] = React.useState<ComboboxOption[]>([]);
-  const [loading, setLoading] = React.useState(false);
+  const [options, setOptions] = useState<ComboboxOption[]>([]);
+  const [loading, setLoading] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (disabled) {
       setOptions([]);
       return;
     }
-
     const loadData = async () => {
       setLoading(true);
       try {

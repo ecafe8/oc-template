@@ -11,7 +11,7 @@
     "check-types": "next typegen && tsc --noEmit"
   },
   "dependencies": {
-    "@repo/share-frontend": "*",
+    "@countrystatecity/countries": "^1.0.5",
     "@repo/share-ui": "*",
     "next": "^16.1.2"
   },
