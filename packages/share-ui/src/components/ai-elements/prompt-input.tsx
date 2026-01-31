@@ -53,7 +53,7 @@ import {
 // ============================================================================
 
 export interface AttachmentsContext {
-  files: (FileUIPart & { id: string })[];
+  files: (FileUIPart & { id: string; size?: number })[];
   add: (files: File[] | FileList) => void;
   remove: (id: string) => void;
   clear: () => void;
@@ -130,6 +130,7 @@ export function PromptInputProvider({ initialInput: initialTextInput = "", child
           url: URL.createObjectURL(file),
           mediaType: file.type,
           filename: file.name,
+          size: file.size,
         })),
       ),
     );
