@@ -20,6 +20,7 @@
     "undici": "^7.16.0"
   },
   "dependencies": {
+    "@diceui/shared": "^0.12.0",
     "@radix-ui/react-use-controllable-state": "^1.2.2",
     "@xyflow/react": "^12.10.0",
     "ai": "^6.0.31",
