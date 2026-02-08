@@ -1,0 +1,13 @@
+{
+  "extends": "@repo/typescript-config/hono.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@repo/server-template/*": ["./src/*"],
+      "@repo/share-backend/*": ["../../packages/share-backend/src/*"]
+    },
+    "lib": ["ES2020"],
+    "types": ["node"],
+    "strictNullChecks": true
+  }
+}

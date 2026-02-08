@@ -10,14 +10,14 @@
     "sync:ai-elements": "git submodule update --remote resource/ai-elements && node scripts/sync-ai-elements.mjs"
   },
   "devDependencies": {
-    "@types/react": "^19.2.2",
+    "@types/react": "^19.2.13",
     "@types/react-dom": "^19.2.2",
     "@biomejs/biome": "2.3.8",
     "@repo/typescript-config": "*",
     "shadcn": "^3.6.3",
     "turbo": "^2.7.3",
-    "typescript": "5.9.2",
-    "undici": "^7.16.0"
+    "typescript": "5.9.3",
+    "undici": "^7.21.0"
   },
   "dependencies": {
     "@diceui/shared": "^0.12.0",
@@ -25,23 +25,23 @@
     "@headless-tree/react": "^1.6.2",
     "@radix-ui/react-use-controllable-state": "^1.2.2",
     "@xyflow/react": "^12.10.0",
-    "ai": "^6.0.31",
-    "better-auth": "^1.4.12",
+    "ai": "^6.0.77",
+    "better-auth": "^1.4.18",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.19",
     "lucide-react": "^0.562.0",
     "nanoid": "^5.1.6",
     "next-themes": "^0.4.6",
-    "react": "^19.2.2",
-    "react-dom": "^19.2.2",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
     "react-icons": "^5.5.0",
-    "shiki": "^3.21.0",
+    "shiki": "^3.22.0",
     "sonner": "^2.0.7",
-    "streamdown": "^2.0.1",
+    "streamdown": "^2.1.0",
     "tailwindcss": "^4.1.18",
     "tokenlens": "^1.3.1",
-    "use-stick-to-bottom": "^1.1.1"
+    "use-stick-to-bottom": "^1.1.3"
   },
   "engines": {
     "node": ">=22.18.0",
