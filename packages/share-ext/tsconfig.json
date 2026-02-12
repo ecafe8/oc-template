@@ -1,0 +1,12 @@
+{
+  "extends": "@repo/typescript-config/base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "rootDir": ".",
+    "paths": {
+      "@repo/share-ext/*": ["./src/*"]
+    },
+    "types": ["chrome"],
+    "outDir": "dist"
+  }
+}
