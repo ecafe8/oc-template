@@ -41,7 +41,10 @@ Apply the [general coding guidelines](./general-coding.instructions.md) to all c
 - 所有 API 路由应以 `/api/` 前缀开头。
 - 使用 RESTful 风格设计 API，确保资源的统一性和可预测性。
 - 所有请求和响应均应使用 JSON 格式进行数据交换。
-- 使用 `{ "code": number, "message": string, "data": any }` 作为统一的响应格式。
+- 使用 `{ "code": string, "message": string, "data": any }` 作为统一的响应格式。
+  - 其中 `code` 为字符串类型的错误码，`message` 为描述信息，`data` 为具体的响应数据。
+  - 如果请求成功，`code` 应为 `"SUCCESS"`，`message` 可为 `空字符串` 也可为 `业务所需的成功消息`，`data` 包含实际数据。
+  - 如果请求失败，`code` 应为具体的错误码字符串，`message` 包含错误描述，`data` 可为 `null` 或包含错误相关的数据。
 - 所有敏感信息（如密码、令牌）在传输和存储时必须进行加密处理。
 - 前端与后端约定使用 JWT（JSON Web Token）进行用户认证和授权。
 
@@ -61,5 +64,12 @@ Apply the [general coding guidelines](./general-coding.instructions.md) to all c
 - 使用类型断言（`as`）时，应确保类型转换的正确性，避免潜在的类型错误。
 - 定义通用类型时，使用泛型（`<T>`）以提高代码的灵活性和可重用性。
 - 使用类型守卫（`typeof`、`instanceof`）进行类型检查，确保代码的类型安全。
+
+## 状态管理
+- 使用 React Query 进行服务器状态管理，确保数据获取和缓存的高效性。
+- 使用 Jotai 进行客户端状态管理，确保状态的可预测性和易于维护。
+- 避免在组件中直接操作全局状态，使用状态管理库提供的 API 进行状态更新。
+- 使用原子（atom）和选择器（selector）进行状态的细粒度管理，确保状态的可复用性和可维护性。
+- 避免在状态管理中存储大量数据，确保状态的轻量级和高效性。
 
 

@@ -28,15 +28,18 @@ Apply the [general coding guidelines](./general-coding.instructions.md) to all c
    - `src/lib/db/client.ts` 文件用于创建和导出数据库客户端实例。
 - `src/modules` 目录下存放所有业务模块相关的代码，确保模块化开发和维护。
   - 每个模块应包含其路由、控制器、服务和模型等相关代码。
-  - `src/modules/[module]/enums` 目录下存放该模块特有的枚举定义。
-  - `src/modules/[module]/schemas` 目录下存放该模块特有的 Zod 验证模式定义。
-  - `src/modules/[module]/types` 目录下存放该模块特有的类型定义。
   - `src/modules/[module]/services` 目录下存放该模块特有的服务代码，如数据库操作、第三方 API 调用等。
   - `src/modules/[module]/controllers` 目录下存放该模块特有的控制器代码，处理具体的业务逻辑。
   - `src/modules/[module]/routes` 目录下存放该模块特有的路由定义代码。
-  - `src/modules/[module]/dtos` 目录下存放该模块特有的数据传输对象定义, 若需要。
   - `src/modules/[module]/errors` 目录下存放该模块特有的错误定义。
   - `src/modules/[module]/help` 目录下存放该模块特有的辅助代码。
+  - 类型和常量放到 `packages/share-common/src/modules/[module]` 中，供前后端共享。
+  - `packages/share-common/src/modules/[module]/const` 目录下存放该模块特有的常量定义。
+  - `packages/share-common/src/modules/[module]/types` 目录下存放该模块特有的类型定义。
+    - `packages/share-common/src/modules/[module]/types/enum.ts` 文件用于定义该模块特有的枚举类型。
+    - `packages/share-common/src/modules/[module]/types/schema.ts` 文件用于定义该模块特有的 Zod 验证模式。
+    - `packages/share-common/src/modules/[module]/types/type.ts` 文件用于定义该模块特有的其他类型别名，以及从 schema 中派生的类型。
+    - `packages/share-common/src/modules/[module]/types/index.ts` 文件用于集中导出该模块的所有类型定义。
 - `src/middlewares` 目录下存放所有中间件相关的代码。
   - `src/middlewares/auth.ts` 文件用于处理用户认证相关的中间件逻辑。
   - `src/middlewares/errorHandler.ts` 文件用于处理全局错误处理的中间件逻辑。
@@ -134,4 +137,19 @@ Apply the [general coding guidelines](./general-coding.instructions.md) to all c
 - Service 层单元测试通过 mock `db` 实现隔离。
 - 测试文件与源码同目录，命名为 `*.test.ts`（单元测试）或 `*.integration.test.ts`（集成测试）。
 
+
+## 核心架构优化：逻辑解耦
+为了发挥 `RPC` 端到端类型安全 的最大威力，需要：
+
+A. 强化 `Service` 层与 `Drizzle` 的结合
+确保 `services` 层只负责业务逻辑和数据库操作，返回的是纯数据（`Plain Objects`），而不是 `Hono` 的 `Context` 对象。这样可以方便地进行单元测试。
+
+B. 路由定义 (Routes) 扁平化
+Hono 的 RPC 依赖于路由的链式调用。如果你的路由嵌套太深，前端推导出的类型会变得非常复杂。
+优化点： 在 `modules/project/routes/` 中定义具体的 `Hono` 实例，然后在 `src/routes.ts` 中使用 `.route()` 进行挂载。
+
+## 需要注意的地方：
+
+1. 路由定义必须使用链式调用，否则会导致 `TypeScript` 无法正确推导类型。
+2. 在 `Controller` 中直接使用 `Zod Schema` 进行验证，而不是依赖 `c.req.valid()`。这样可以：获得完整的类型推导,符合规范要求,让验证逻辑更清晰.
 

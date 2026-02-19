@@ -13,12 +13,15 @@ applyTo: '**'
 - 使用单一职责原则
 - 使用别名路径引用，避免使用相对路径
 - 命名方式：
-  - 使用文件夹 + index.ts|tsx命名：`[功能模块名]/index.ts`
-  - 使用驼峰命名法，例如：`fileAPI/index.ts`
-  - 使用驼峰命名组件，例如：`customComponent/index.tsx`
+  - 使用 文件夹 + index.ts|tsx 创建并命名文件：`[功能模块名]/index.ts`
+  - 使用 kebab-case 命名法，例如：`file-api/index.ts`
+  - 使用 kebab-case 命名组件，例如：`custom-component/index.tsx`
+  - 使用 PascalCase 命名类和接口，例如：`class UserProfile {}`
+  - 使用 camelCase 命名变量和函数，例如：`const userName = 'Alice'; function getUserName() {}`
 
 ## Naming Conventions
 
+- Use kebab-case for file and folder names
 - Use PascalCase for component names, interfaces, and type aliases
 - Use camelCase for dir names, variables, functions, and methods
 - Prefix private class members with underscore (\_)
