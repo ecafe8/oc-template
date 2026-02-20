@@ -1,9 +1,11 @@
 "use client";
 
+import type { CarouselApi } from "@repo/share-ui/components/reui/carousel";
+import type { ComponentProps } from "react";
+
 import { Badge } from "@repo/share-ui/components/reui/badge";
 import {
   Carousel,
-  type CarouselApi,
   CarouselContent,
   CarouselItem,
 } from "@repo/share-ui/components/reui/carousel";
@@ -15,7 +17,6 @@ import {
 import { cn } from "@repo/share-ui/utils";
 import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react";
 import {
-  type ComponentProps,
   createContext,
   useCallback,
   useContext,
@@ -166,9 +167,15 @@ export const InlineCitationCarouselIndex = ({
     setCount(api.scrollSnapList().length);
     setCurrent(api.selectedScrollSnap() + 1);
 
-    api.on("select", () => {
+    const handleSelect = () => {
       setCurrent(api.selectedScrollSnap() + 1);
-    });
+    };
+
+    api.on("select", handleSelect);
+
+    return () => {
+      api.off("select", handleSelect);
+    };
   }, [api]);
 
   return (

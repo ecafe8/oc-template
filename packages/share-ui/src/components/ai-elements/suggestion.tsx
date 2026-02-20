@@ -1,12 +1,14 @@
 "use client";
 
+import type { ComponentProps } from "react";
+
 import { Button } from "@repo/share-ui/components/reui/button";
 import {
   ScrollArea,
   ScrollBar,
 } from "@repo/share-ui/components/reui/scroll-area";
 import { cn } from "@repo/share-ui/utils";
-import type { ComponentProps } from "react";
+import { useCallback } from "react";
 
 export type SuggestionsProps = ComponentProps<typeof ScrollArea>;
 
@@ -37,9 +39,9 @@ export const Suggestion = ({
   children,
   ...props
 }: SuggestionProps) => {
-  const handleClick = () => {
+  const handleClick = useCallback(() => {
     onClick?.(suggestion);
-  };
+  }, [onClick, suggestion]);
 
   return (
     <Button

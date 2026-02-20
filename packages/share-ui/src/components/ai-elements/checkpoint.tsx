@@ -1,5 +1,8 @@
 "use client";
 
+import type { LucideProps } from "lucide-react";
+import type { ComponentProps, HTMLAttributes } from "react";
+
 import { Button } from "@repo/share-ui/components/reui/button";
 import { Separator } from "@repo/share-ui/components/reui/separator";
 import {
@@ -8,8 +11,7 @@ import {
   TooltipTrigger,
 } from "@repo/share-ui/components/reui/tooltip";
 import { cn } from "@repo/share-ui/utils";
-import { BookmarkIcon, type LucideProps } from "lucide-react";
-import type { ComponentProps, HTMLAttributes } from "react";
+import { BookmarkIcon } from "lucide-react";
 
 export type CheckpointProps = HTMLAttributes<HTMLDivElement>;
 
@@ -47,7 +49,6 @@ export type CheckpointTriggerProps = ComponentProps<typeof Button> & {
 
 export const CheckpointTrigger = ({
   children,
-  className,
   variant = "ghost",
   size = "sm",
   tooltip,

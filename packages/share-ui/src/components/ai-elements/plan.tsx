@@ -1,5 +1,7 @@
 "use client";
 
+import type { ComponentProps } from "react";
+
 import { Button } from "@repo/share-ui/components/reui/button";
 import {
   Card,
@@ -17,8 +19,8 @@ import {
 } from "@repo/share-ui/components/reui/collapsible";
 import { cn } from "@repo/share-ui/utils";
 import { ChevronsUpDownIcon } from "lucide-react";
-import type { ComponentProps } from "react";
 import { createContext, useContext } from "react";
+
 import { Shimmer } from "./shimmer";
 
 interface PlanContextValue {

@@ -1,5 +1,8 @@
 "use client";
 
+import type { ToolUIPart } from "ai";
+import type { ComponentProps } from "react";
+
 import {
   Collapsible,
   CollapsibleContent,
@@ -12,9 +15,8 @@ import {
   TabsTrigger,
 } from "@repo/share-ui/components/reui/tabs";
 import { cn } from "@repo/share-ui/utils";
-import type { ToolUIPart } from "ai";
 import { ChevronDownIcon, Code } from "lucide-react";
-import type { ComponentProps } from "react";
+
 import { getStatusBadge } from "./tool";
 
 export type SandboxRootProps = ComponentProps<typeof Collapsible>;
