@@ -18,6 +18,12 @@ export interface JwtPayload {
  * Applied per-route, not globally.
  */
 export const authMiddleware = async (c: Context<AppEnv>, next: Next): Promise<void> => {
+  // 开发模式下跳过 /api/docs 的认证，方便访问文档界面
+  if (env.NODE_ENV === "development" && c.req.path.startsWith("/api/docs")) {
+    await next();
+    return;
+  }
+
   const authHeader = c.req.header("Authorization");
 
   if (!authHeader?.startsWith("Bearer ")) {
