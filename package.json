@@ -10,10 +10,10 @@
     "sync:ai-elements": "git submodule update --remote resource/ai-elements && node scripts/sync-ai-elements.mjs"
   },
   "devDependencies": {
-    "@types/react": "^19.2.13",
-    "@types/react-dom": "^19.2.2",
     "@biomejs/biome": "2.3.8",
     "@repo/typescript-config": "*",
+    "@types/react": "^19.2.13",
+    "@types/react-dom": "^19.2.2",
     "shadcn": "^3.6.3",
     "turbo": "^2.7.3",
     "typescript": "5.9.3",
@@ -30,6 +30,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.19",
+    "dotenv": "^17.3.1",
     "lucide-react": "^0.562.0",
     "nanoid": "^5.1.6",
     "next-themes": "^0.4.6",

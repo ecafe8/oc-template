@@ -4,10 +4,33 @@
     "baseUrl": ".",
     "paths": {
       "@repo/server-template/*": ["./src/*"],
+      "@repo/share-common/*": ["../../packages/share-common/src/*"],
       "@repo/share-backend/*": ["../../packages/share-backend/src/*"]
     },
-    "lib": ["ES2020"],
-    "types": ["node"],
-    "strictNullChecks": true
+
+    // Environment setup & latest features
+    "lib": ["ESNext"],
+    "target": "ESNext",
+    "module": "Preserve",
+    "moduleDetection": "force",
+    "allowJs": true,
+
+    // Bundler mode
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "noEmit": true,
+
+    // Best practices
+    "strict": true,
+    "skipLibCheck": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+
+    // Some stricter flags (disabled by default)
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noPropertyAccessFromIndexSignature": false
   }
 }

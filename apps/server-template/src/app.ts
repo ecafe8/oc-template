@@ -1,28 +1,33 @@
-import { pool } from "./lib/db/client.js";
-import { corsMiddleware } from "./middlewares/cors.js";
-import { errorHandlerMiddleware } from "./middlewares/error-handler.js";
-import { loggingMiddleware } from "./middlewares/logging.js";
-import { rateLimiterMiddleware } from "./middlewares/rate-limiter.js";
-import { requestIdMiddleware } from "./middlewares/request-id.js";
-import { apiRoutes } from "./routes.js";
-import type { AppEnv } from "./types/index.js";
 import { Hono } from "hono";
+import { contextStorage } from "hono/context-storage";
+import { requestId } from "hono/request-id";
+import { errorHandler } from "./errors/error-handler";
+import { pool } from "./lib/db/client";
+import { authMiddleware } from "./middlewares/auth";
+import { corsMiddleware } from "./middlewares/cors";
+import { loggingMiddleware } from "./middlewares/logging";
+import { rateLimiterMiddleware } from "./middlewares/rate-limiter";
+import { routes } from "./routes";
 
-const app = new Hono<AppEnv>();
+const app = new Hono();
 
 // --- Global Middleware (order matters) ---
 
 // 1. Request ID — must be first so all logs have it
-app.use("*", requestIdMiddleware);
+app.use(requestId());
 
 // 2. Logging — captures request/response timing
-app.use("*", loggingMiddleware);
+app.use(loggingMiddleware);
 
-// 3. Error handler — wraps everything below in try/catch
-app.use("*", errorHandlerMiddleware);
+// 3. CORS — before auth so preflight works
+app.use(corsMiddleware);
 
-// 4. CORS — before auth so preflight works
-app.use("/api/*", corsMiddleware);
+// 4. Error handler — wraps everything below in try/catch
+errorHandler(app);
+
+app.use(authMiddleware);
+
+app.use(contextStorage());
 
 // 5. Rate limiter — after CORS, before routes
 app.use("/api/*", rateLimiterMiddleware);
@@ -43,6 +48,6 @@ app.get("/health", async (c) => {
 });
 
 // --- API Routes ---
-app.route("/api", apiRoutes);
+app.route("/", routes);
 
 export { app };

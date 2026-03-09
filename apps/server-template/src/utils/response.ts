@@ -18,10 +18,10 @@ export function success<T>(c: Context, data: T, message = "", status: Contentful
 }
 
 /**
- * Build an error response.
+ * Build a fail response.
  * Typically called from the global error handler, not directly in controllers.
  */
-export function error(
+export function fail(
   c: Context,
   code: string,
   message: string,
