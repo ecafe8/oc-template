@@ -1,4 +1,4 @@
-import { logger } from "@repo/server-template/utils/logger.js";
+import { logger } from "@repo/server-template/utils/logger";
 import type { Context, Next } from "hono";
 
 export const loggingMiddleware = async (c: Context, next: Next): Promise<void> => {

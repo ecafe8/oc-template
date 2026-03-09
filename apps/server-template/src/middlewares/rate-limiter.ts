@@ -1,6 +1,6 @@
-import { env } from "@repo/server-template/config/env.js";
-import { AppError } from "@repo/server-template/errors/app-error.js";
-import { ErrorCode } from "@repo/server-template/errors/error-codes.js";
+import { env } from "@repo/server-template/config/env";
+import { AppError } from "@repo/server-template/errors/app-error";
+import { ErrorCode } from "@repo/server-template/errors/error-codes";
 import type { Context, Next } from "hono";
 
 // Simple in-memory rate limiter (replace with Redis for multi-instance production)

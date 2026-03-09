@@ -1,7 +1,7 @@
-import { env } from "@repo/server-template/config/env.js";
-import { AuthError, ForbiddenError } from "@repo/server-template/errors/app-error.js";
-import { ErrorCode } from "@repo/server-template/errors/error-codes.js";
-import type { AppEnv } from "@repo/server-template/types/index.js";
+import { env } from "@repo/server-template/config/env";
+import { AuthError, ForbiddenError } from "@repo/server-template/errors/app-error";
+import { ErrorCode } from "@repo/server-template/errors/error-codes";
+import type { AppEnv } from "@repo/server-template/types/index";
 import type { Context, Next } from "hono";
 import { verify } from "hono/jwt";
 

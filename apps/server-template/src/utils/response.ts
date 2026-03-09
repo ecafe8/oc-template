@@ -1,4 +1,4 @@
-import type { ApiResponse } from "@repo/server-template/types/response.js";
+import type { ApiResponse } from "@repo/server-template/types/response";
 import type { Context } from "hono";
 import type { ContentfulStatusCode } from "hono/utils/http-status";
 

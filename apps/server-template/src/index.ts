@@ -1,8 +1,8 @@
 import { serve } from "@hono/node-server";
-import { app } from "@repo/server-template/app.js";
-import { env } from "@repo/server-template/config/env.js";
-import { pool } from "@repo/server-template/lib/db/client.js";
-import { logger } from "@repo/server-template/utils/logger.js";
+import { app } from "@repo/server-template/app";
+import { env } from "@repo/server-template/config/env";
+import { pool } from "@repo/server-template/lib/db/client";
+import { logger } from "@repo/server-template/utils/logger";
 
 const server = serve(
   {

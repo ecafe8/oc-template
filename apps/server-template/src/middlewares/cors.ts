@@ -1,4 +1,4 @@
-import { env } from "@repo/server-template/config/env.js";
+import { env } from "@repo/server-template/config/env";
 import { cors } from "hono/cors";
 
 export const corsMiddleware = cors({
