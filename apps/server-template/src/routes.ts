@@ -1,7 +1,7 @@
 import { swaggerUI } from "@hono/swagger-ui";
 import { Hono } from "hono";
 import { openAPIRouteHandler } from "hono-openapi";
-import { sitesRoutes } from "./modules/example/routes/sites.routes";
+import { sitesRoutes } from "./modules/sites/routes";
 
 const routes = new Hono().basePath("/api");
 

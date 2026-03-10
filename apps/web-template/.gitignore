@@ -34,3 +34,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# RPC generated files
+/app/api/rpc/generated/*
+!/app/api/rpc/generated/.gitkeep

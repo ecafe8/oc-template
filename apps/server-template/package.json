@@ -13,7 +13,7 @@
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
-    "gen:rpc": "tsx scripts/generate-rpc-type.ts"
+    "gen:rpc-type": "bun run scripts/generate-rpc-type.ts"
   },
   "dependencies": {
     "@hono/node-server": "^1.19.6",

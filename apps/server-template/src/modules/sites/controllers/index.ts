@@ -11,7 +11,7 @@ import {
   listSites,
   triggerSiteAudit,
   updateSite,
-} from "../services/sites.service";
+} from "../services";
 
 const CreateSiteSchema = z.object({
   url: z.string().url("Must be a valid URL"),

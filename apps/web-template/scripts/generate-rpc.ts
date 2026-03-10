@@ -7,7 +7,7 @@
  * - React Query hooks (useQuery for GET, useMutation for POST/PUT/DELETE)
  * - Query key factories for cache management
  *
- * Usage: bun run generate:rpc --server=server-oc-api
+ * Usage: bun run generate:rpc --server=server-oc-api --package=@repo/server-oc-api
  *
  * ⚠️ Generated files go to: api/rpc/generated/
  *    DO NOT put generated code in this scripts directory.
@@ -22,6 +22,7 @@ import { camel, dash, pascal } from "radash";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DEFAULT_SERVER_NAME = "server-template";
+const DEFAULT_PACKAGE_PREFIX = "@repo";
 const OUTPUT_DIR = path.resolve(__dirname, "../app/api/rpc/generated");
 
 function parseServerName(argv: string[]): string {
@@ -42,6 +43,26 @@ function parseServerName(argv: string[]): string {
   }
 
   return DEFAULT_SERVER_NAME;
+}
+
+function parsePackageAlias(argv: string[], serverName: string): string {
+  const packageArg = argv.find((arg) => arg.startsWith("--packageAlias="));
+  if (packageArg) {
+    const packageAlias = packageArg.slice("--packageAlias=".length).trim();
+    if (packageAlias.length > 0) {
+      return packageAlias;
+    }
+  }
+
+  const packageFlagIndex = argv.findIndex((arg) => arg === "--packageAlias");
+  if (packageFlagIndex >= 0) {
+    const packageAlias = argv[packageFlagIndex + 1]?.trim();
+    if (packageAlias) {
+      return packageAlias;
+    }
+  }
+
+  return `${DEFAULT_PACKAGE_PREFIX}/${serverName}`;
 }
 
 // ── Types ──────────────────────────────────────────────────────
@@ -249,7 +270,7 @@ function getCustomQueryFactoryName(actionName: string): string {
 
 // ── Code Generation ────────────────────────────────────────────
 
-function generateModuleCode(module: ModuleInfo): string {
+function generateModuleCode(module: ModuleInfo, packageAlias: string): string {
   const lines: string[] = [];
   const hasQueries = module.endpoints.some((e) => e.isQuery);
   const hasMutations = module.endpoints.some((e) => !e.isQuery);
@@ -281,7 +302,7 @@ function generateModuleCode(module: ModuleInfo): string {
 
   // Import RPC type from backend exports
   lines.push("");
-  lines.push(`import type { ${module.typeName} } from "@repo/server-oc-api/exports/rpc";`);
+  lines.push(`import type { ${module.typeName} } from "${packageAlias}/exports/rpc";`);
   lines.push("");
 
   // ── Client ──
@@ -469,12 +490,15 @@ function getQueryKeyCall(ep: EndpointInfo, module: ModuleInfo): string {
 // ── Main ───────────────────────────────────────────────────────
 
 function main(): void {
-  const serverName = parseServerName(process.argv.slice(2));
+  const argv = process.argv.slice(2);
+  const serverName = parseServerName(argv);
+  const packageAlias = parsePackageAlias(argv, serverName);
   const serverApiDir = path.resolve(__dirname, `../../${serverName}`);
   const rpcExportsFile = path.join(serverApiDir, "exports/rpc.ts");
 
   console.log("🚀 Generating RPC hooks...\n");
   console.log(`🔧 Target server: ${serverName}`);
+  console.log(`📦 Package import: ${packageAlias}/exports/rpc`);
 
   if (!existsSync(serverApiDir)) {
     console.error(`❌ server directory not found: ${serverApiDir}`);
@@ -560,7 +584,7 @@ function main(): void {
   console.log("\n📝 Generating files:\n");
 
   for (const module of modules) {
-    const code = generateModuleCode(module);
+    const code = generateModuleCode(module, packageAlias);
     const filePath = path.join(OUTPUT_DIR, `${module.fileName}.ts`);
     writeFileSync(filePath, code);
     console.log(`  ✅ ${module.fileName}.ts`);

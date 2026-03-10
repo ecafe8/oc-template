@@ -10,7 +10,7 @@ import {
   listSitesHandler,
   triggerSiteAuditHandler,
   updateSiteHandler,
-} from "../controllers/sites.controller";
+} from "../controllers";
 
 /**
  * Sites routes — mounted at /api

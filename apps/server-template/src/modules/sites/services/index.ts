@@ -3,7 +3,7 @@ import type { SiteConfig } from "@repo/server-template/lib/db/schemas";
 import { auditResults, siteAuditSnapshots, sites } from "@repo/server-template/lib/db/schemas";
 // import { startAudit } from "@repo/server-template/modules/audit/services/audit.service";
 import { and, desc, eq, isNull } from "drizzle-orm";
-import { SiteNotFoundError, SiteUrlDuplicateError } from "../errors/sites.errors";
+import { SiteNotFoundError, SiteUrlDuplicateError } from "../errors";
 
 export interface CreateSiteInput {
   url: string;

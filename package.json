@@ -8,7 +8,7 @@
     "check-types": "turbo run check-types",
     "gen:web": "oc add app web-template",
     "gen:server": "oc add app server-template",
-    "gen:rpc": "turbo run gen:rpc",
+    "gen:rpc": "turbo run gen:rpc-type --filter='./apps/server-*' && turbo run gen:rpc --filter='./apps/web-*'",
     "sync:ai-elements": "git submodule update --remote resource/ai-elements && node scripts/sync-ai-elements.mjs"
   },
   "devDependencies": {

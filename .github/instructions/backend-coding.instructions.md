@@ -31,9 +31,9 @@ Apply the [general coding guidelines](./general-coding.instructions.md) to all c
   - `src/modules/[module]/services` 目录下存放该模块特有的服务代码，如数据库操作、第三方 API 调用等。
   - `src/modules/[module]/controllers` 目录下存放该模块特有的控制器代码，处理具体的业务逻辑。
   - `src/modules/[module]/routes` 目录下存放该模块特有的路由定义代码。
-    - `src/modules/[module]/routes/[module].routes.ts` 文件用于定义该模块的具体路由。同时需要导出 RPC 接口定义，供前端调用。
-      - 例如，`src/modules/example/routes/sites.routes.ts` 定义了 `example` 模块中与 `sites` 相关的路由，并导出 `RPCSitesRoutesType` 类型供前端使用。
-      - 命名规则：`[module].routes.ts`，导出的类型命名为 `RPC[Module]RoutesType`。命名必须包含 `RPC` 前缀，以明确表示这是供前端调用的接口定义。并且前端生成器需要使用这个命名规则来正确识别和生成对应的 API 客户端代码。
+    - `src/modules/[module]/routes/index.ts` 文件用于定义该模块的具体路由。同时需要导出 RPC 接口定义，供前端调用。
+      - 例如，`src/modules/example/routes/index.ts` 定义了 `example` 模块中与 `sites` 相关的路由，并导出 `RPCSitesRoutesType` 类型供前端使用。
+      - 命名规则：`index.ts`，导出的类型命名为 `RPC[Module]RoutesType`。命名必须包含 `RPC` 前缀，以明确表示这是供前端调用的接口定义。并且前端生成器需要使用这个命名规则来正确识别和生成对应的 API 客户端代码。
       - 必须使用链式调用定义路由，以确保 TypeScript 能正确推导类型。
   - `src/modules/[module]/errors` 目录下存放该模块特有的错误定义。
   - `src/modules/[module]/help` 目录下存放该模块特有的辅助代码。

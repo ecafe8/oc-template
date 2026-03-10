@@ -25,9 +25,9 @@ const modules = files
     const name = file.match(/modules\/([^/]+)\//)?.[1];
     if (!name) return null;
     const pascalCaseName = camel(name);
-    const typeName = `RPC${pascal(name)}Type`;
+    const typeName = `RPC${pascal(name)}RoutesType`;
     const snakeCaseName = snake(pascalCaseName);
-    const importPath = `./src/${file.replace("src/", "")}`; // 相对于 exports/ 目录
+    const importPath = `../src/${file.replace("src/", "")}`; // 相对于 exports/ 目录
     console.log(`✅ Found module: ${name} (${pascalCaseName}, ${typeName}, ${snakeCaseName}, ${importPath})`);
     return { name, pascalCaseName, snakeCaseName, typeName, importPath };
   })
@@ -79,11 +79,11 @@ console.log("✅ Generated exports/rpc.ts (Proxy + React Query Support)");
 // 处理 types.ts (保持不变)
 files = fg.sync(["src/modules/*/type.ts"], { cwd: ROOT });
 let exportsTypes =
-  `export type { ApiResponse } from "./src/types/response.ts";
-` + files.map((file) => `export * from "./src/${file.replace("src/", "")}";`).join("\n");
+  `export type { ApiResponse } from "../src/types/response";
+` + files.map((file) => `export * from "../src/${file.replace("src/", "")}";`).join("\n");
 
 const commonFiles = fg.sync(["src/modules/*/types/index.ts"], { cwd: ROOT });
-exportsTypes += `\n` + commonFiles.map((file) => `export * from "./src/${file.replace("src/", "")}";`).join("\n");
+exportsTypes += `\n` + commonFiles.map((file) => `export * from "../src/${file.replace("src/", "")}";`).join("\n");
 
 writeFileSync(path.join(exportsDir, "types.ts"), `${exportsTypes}\n`);
 console.log("✅ Generated exports/types.ts");

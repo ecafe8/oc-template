@@ -9,11 +9,12 @@
     "start": "next start",
     "lint": "biome check --write",
     "check-types": "next typegen && tsc --noEmit",
-    "gen:rpc": "ts-node scripts/generate-rpc.ts"
+    "gen:rpc": "bun run scripts/generate-rpc.ts --server=server-template --packageAlias=@repo/server-template"
   },
   "dependencies": {
     "@countrystatecity/countries": "^1.0.5",
     "@repo/share-ui": "*",
+    "@tanstack/react-query": "^5.90.21",
     "next": "^16.1.2"
   },
   "devDependencies": {
