@@ -38,7 +38,7 @@ Apply the [general coding guidelines](./general-coding.instructions.md) to all c
   - `src/modules/[module]/errors` 目录下存放该模块特有的错误定义。
   - `src/modules/[module]/help` 目录下存放该模块特有的辅助代码。
   - 类型和常量放到 `packages/share-common/src/modules/[module]` 中，供前后端共享。
-  - `packages/share-common/src/modules/[module]/const` 目录下存放该模块特有的常量定义。
+  - `packages/share-common/src/modules/[module]/constants` 目录下存放该模块特有的常量定义。
   - `packages/share-common/src/modules/[module]/types` 目录下存放该模块特有的类型定义。
     - `packages/share-common/src/modules/[module]/types/enum.ts` 文件用于定义该模块特有的枚举类型。
     - `packages/share-common/src/modules/[module]/types/schema.ts` 文件用于定义该模块特有的 Zod 验证模式。

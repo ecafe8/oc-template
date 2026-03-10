@@ -15,6 +15,10 @@
     "db:studio": "drizzle-kit studio",
     "gen:rpc-type": "bun run scripts/generate-rpc-type.ts"
   },
+  "exports": {
+    "./rpc": "./exports/rpc.ts",
+    "./types": "./exports/types.ts"
+  },
   "dependencies": {
     "@hono/node-server": "^1.19.6",
     "@hono/standard-validator": "^0.2.2",
