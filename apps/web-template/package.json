@@ -9,7 +9,7 @@
     "start": "next start",
     "lint": "biome check --write",
     "check-types": "next typegen && tsc --noEmit",
-    "gen:rpc": "bun run scripts/generate-rpc.ts --server=server-template --packageAlias=@repo/server-template"
+    "gen:rpc": "bun run scripts/generate-rpc.ts --server=server-template --packageExportAlias=@repo/server-template-export --packageAlias=@repo/server-template"
   },
   "dependencies": {
     "@countrystatecity/countries": "^1.0.5",

@@ -25,44 +25,33 @@ const DEFAULT_SERVER_NAME = "server-template";
 const DEFAULT_PACKAGE_PREFIX = "@repo";
 const OUTPUT_DIR = path.resolve(__dirname, "../app/api/rpc/generated");
 
+function parseArgumentValue(argv: string[], flag: string): string | undefined {
+  const arg = argv.find((a) => a.startsWith(`--${flag}=`));
+  if (arg) {
+    const value = arg.slice(`--${flag}=`.length).trim();
+    if (value.length > 0) {
+      return value;
+    }
+  }
+  const flagIndex = argv.findIndex((a) => a === `--${flag}`);
+  if (flagIndex >= 0) {
+    const value = argv[flagIndex + 1]?.trim();
+    if (value) {
+      return value;
+    }
+  }
+}
+
 function parseServerName(argv: string[]): string {
-  const serverArg = argv.find((arg) => arg.startsWith("--server="));
-  if (serverArg) {
-    const serverName = serverArg.slice("--server=".length).trim();
-    if (serverName.length > 0) {
-      return serverName;
-    }
-  }
-
-  const serverFlagIndex = argv.findIndex((arg) => arg === "--server");
-  if (serverFlagIndex >= 0) {
-    const serverName = argv[serverFlagIndex + 1]?.trim();
-    if (serverName) {
-      return serverName;
-    }
-  }
-
-  return DEFAULT_SERVER_NAME;
+  return parseArgumentValue(argv, "server") || DEFAULT_SERVER_NAME;
 }
 
 function parsePackageAlias(argv: string[], serverName: string): string {
-  const packageArg = argv.find((arg) => arg.startsWith("--packageAlias="));
-  if (packageArg) {
-    const packageAlias = packageArg.slice("--packageAlias=".length).trim();
-    if (packageAlias.length > 0) {
-      return packageAlias;
-    }
-  }
+  return parseArgumentValue(argv, "packageAlias") || `${DEFAULT_PACKAGE_PREFIX}/${serverName}`;
+}
 
-  const packageFlagIndex = argv.findIndex((arg) => arg === "--packageAlias");
-  if (packageFlagIndex >= 0) {
-    const packageAlias = argv[packageFlagIndex + 1]?.trim();
-    if (packageAlias) {
-      return packageAlias;
-    }
-  }
-
-  return `${DEFAULT_PACKAGE_PREFIX}/${serverName}`;
+function parsePackageExportAlias(argv: string[], serverName: string): string {
+  return parseArgumentValue(argv, "packageExportAlias") || `${DEFAULT_PACKAGE_PREFIX}/${serverName}-exports`;
 }
 
 // ── Types ──────────────────────────────────────────────────────
@@ -270,7 +259,7 @@ function getCustomQueryFactoryName(actionName: string): string {
 
 // ── Code Generation ────────────────────────────────────────────
 
-function generateModuleCode(module: ModuleInfo, packageAlias: string): string {
+function generateModuleCode(module: ModuleInfo, packageAlias: string, packageExportAlias: string): string {
   const lines: string[] = [];
   const hasQueries = module.endpoints.some((e) => e.isQuery);
   const hasMutations = module.endpoints.some((e) => !e.isQuery);
@@ -302,7 +291,13 @@ function generateModuleCode(module: ModuleInfo, packageAlias: string): string {
 
   // Import RPC type from backend exports
   lines.push("");
-  lines.push(`import type { ${module.typeName} } from "${packageAlias}/exports/rpc";`);
+  lines.push(`import type { ${module.typeName} } from "${packageExportAlias}/rpc";`);
+  lines.push("");
+
+  // Import shared types from the backend package (e.g. for request/response schemas)
+  lines.push(`// 你可以在这里导入后端共享的类型，例如：`);
+  lines.push(`// import type { SomeType } from "${packageExportAlias}/types";`);
+  lines.push("");
   lines.push("");
 
   // ── Client ──
@@ -519,6 +514,7 @@ function main(): void {
   const argv = process.argv.slice(2);
   const serverName = parseServerName(argv);
   const packageAlias = parsePackageAlias(argv, serverName);
+  const packageExportAlias = parsePackageExportAlias(argv, serverName);
   const serverApiDir = path.resolve(__dirname, `../../${serverName}`);
   const rpcExportsFile = path.join(serverApiDir, "exports/rpc.ts");
 
@@ -620,7 +616,7 @@ function main(): void {
   console.log("\n📝 Generating files:\n");
 
   for (const module of modules) {
-    const code = generateModuleCode(module, packageAlias);
+    const code = generateModuleCode(module, packageAlias, packageExportAlias);
     const filePath = path.join(OUTPUT_DIR, `${module.fileName}.ts`);
     writeFileSync(filePath, code);
     console.log(`  ✅ ${module.fileName}.ts`);
