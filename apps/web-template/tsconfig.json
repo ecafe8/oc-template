@@ -8,6 +8,8 @@
       }
     ],
     "paths": {
+      "@repo/server-template/*": ["../server-template/src/*"],
+      "@repo/server-template-exports/*": ["../server-template/exports/*"],
       "@repo/web-template/*": ["./*"],
       "@repo/share-ui/*": ["../../packages/share-ui/src/*"],
       "@repo/share-frontend/*": ["../../packages/share-frontend/src/*"]

@@ -487,6 +487,32 @@ function getQueryKeyCall(ep: EndpointInfo, module: ModuleInfo): string {
   return `[...${module.moduleName}Keys.all, "${keyName}", input] as const`;
 }
 
+// ── Infer module name when basePath is "/" ─────────────────────
+
+/**
+ * When routes don't use .basePath(), basePath defaults to "/".
+ * Try to infer the module name from the typeName (e.g. RPCSitesRoutesType → sites),
+ * falling back to the common first path segment of all endpoints.
+ */
+function inferModuleName(typeName: string, endpoints: EndpointInfo[]): string {
+  // RPCSitesRoutesType → "Sites" → "sites"
+  const match = typeName.match(/^RPC(.+?)(?:Routes)?Type$/);
+  if (match?.[1]) {
+    return toCamelCase(match[1]);
+  }
+  // Fallback: use the first non-param segment shared across all endpoints
+  const firstSegments = endpoints
+    .map((e) =>
+      e.path
+        .split("/")
+        .filter(Boolean)
+        .find((s) => !s.startsWith(":")),
+    )
+    .filter((s): s is string => !!s);
+  const unique = [...new Set(firstSegments)];
+  return unique.length === 1 ? (unique[0] ?? "") : "";
+}
+
 // ── Main ───────────────────────────────────────────────────────
 
 function main(): void {
@@ -536,17 +562,27 @@ function main(): void {
     const routeContent = readFileSync(sourceFile, "utf-8");
     const { basePath, endpoints } = parseRouteFile(routeContent);
 
-    // Derive names from basePath
-    const cleanBasePath = basePath.replace(/^\//, "");
+    // Derive names from basePath; when "/" infer from typeName or path prefix
+    let cleanBasePath = basePath.replace(/^\//, "");
+    if (!cleanBasePath) {
+      cleanBasePath = inferModuleName(typeName, endpoints);
+    }
+
     const moduleName = toCamelCase(cleanBasePath.replace(/_/g, "-"));
     const moduleKey = cleanBasePath;
     const fileName = toKebabCase(moduleName);
 
+    // When basePath was "/", strip the virtual base prefix from each endpoint path
+    // so that action names and access chains are relative to the module root.
+    const virtualBase = basePath === "/" && cleanBasePath ? `/${cleanBasePath}` : "";
+
     // Populate endpoint names
     for (const ep of endpoints) {
-      ep.accessChain = buildAccessChain(ep.path);
-      ep.typeChain = buildTypeChain(ep.path, ep.method);
-      ep.actionName = generateActionName(ep.method, ep.path);
+      const relPath =
+        virtualBase && ep.path.startsWith(virtualBase) ? ep.path.slice(virtualBase.length) || "/" : ep.path;
+      ep.accessChain = buildAccessChain(relPath);
+      ep.typeChain = buildTypeChain(relPath, ep.method);
+      ep.actionName = generateActionName(ep.method, relPath);
       const { functionName, hookName } = generateEndpointNames(ep.actionName, moduleName);
       ep.functionName = functionName;
       ep.hookName = hookName;
