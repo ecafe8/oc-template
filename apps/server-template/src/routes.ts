@@ -1,10 +1,11 @@
 import { swaggerUI } from "@hono/swagger-ui";
 import { Hono } from "hono";
 import { openAPIRouteHandler } from "hono-openapi";
+import { sitesRoutes } from "./modules/example/routes/sites.routes";
 
 const routes = new Hono().basePath("/api");
 
-const subRoutes: Hono[] = [];
+const subRoutes: Hono[] = [sitesRoutes];
 
 subRoutes.forEach((route) => {
   routes.route("/", route);

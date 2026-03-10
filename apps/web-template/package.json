@@ -8,7 +8,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "biome check --write",
-    "check-types": "next typegen && tsc --noEmit"
+    "check-types": "next typegen && tsc --noEmit",
+    "gen:rpc": "ts-node scripts/generate-rpc.ts"
   },
   "dependencies": {
     "@countrystatecity/countries": "^1.0.5",
