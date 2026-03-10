@@ -59,7 +59,7 @@ export { type ClientRequest, type ClientResponse, hc } from "hono/client";
 export type { StatusCode } from "hono/utils/http-status";
 ${importLines}
 
-// --- Re-export RPC types for frontend use ---
+// --- Export RPC types for frontend use ---
 ${reExportLines}
 
 // --- 类型推断辅助 ---
