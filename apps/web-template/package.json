@@ -16,7 +16,6 @@
     "@repo/server-template": "*",
     "@repo/share-ui": "*",
     "@tanstack/react-query": "^5.90.21",
-    "hono": "^4.12.6",
     "next": "^16.1.2"
   },
   "devDependencies": {
