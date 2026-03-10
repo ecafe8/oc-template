@@ -51,7 +51,7 @@ const TrendSchema = z.object({
   limit: z.coerce.number().int().min(1).max(100).default(30),
 });
 
-export async function listSitesHandler(c: Context): Promise<Response> {
+export async function listSitesHandler(c: Context) {
   const query = PaginationSchema.safeParse(c.req.query());
   if (!query.success) throw new ValidationError("Invalid query params", z.treeifyError(query.error));
 
@@ -59,7 +59,7 @@ export async function listSitesHandler(c: Context): Promise<Response> {
   return success(c, result);
 }
 
-export async function createSiteHandler(c: Context): Promise<Response> {
+export async function createSiteHandler(c: Context) {
   const body = await c.req.json().catch(() => ({}));
   const input = CreateSiteSchema.safeParse(body);
   if (!input.success) throw new ValidationError("Invalid request body", z.treeifyError(input.error));
@@ -68,13 +68,13 @@ export async function createSiteHandler(c: Context): Promise<Response> {
   return success(c, site, "Site created", 201);
 }
 
-export async function getSiteHandler(c: Context): Promise<Response> {
+export async function getSiteHandler(c: Context) {
   const siteId = c.req.param("siteId") ?? "";
   const site = await getSite(siteId);
   return success(c, site);
 }
 
-export async function updateSiteHandler(c: Context): Promise<Response> {
+export async function updateSiteHandler(c: Context) {
   const siteId = c.req.param("siteId") ?? "";
   const body = await c.req.json().catch(() => ({}));
   const input = UpdateSiteSchema.safeParse(body);
@@ -84,19 +84,19 @@ export async function updateSiteHandler(c: Context): Promise<Response> {
   return success(c, site, "Site updated");
 }
 
-export async function deleteSiteHandler(c: Context): Promise<Response> {
+export async function deleteSiteHandler(c: Context) {
   const siteId = c.req.param("siteId") ?? "";
   await deleteSite(siteId);
   return success(c, null, "Site deleted");
 }
 
-export async function triggerSiteAuditHandler(c: Context): Promise<Response> {
+export async function triggerSiteAuditHandler(c: Context) {
   const siteId = c.req.param("siteId") ?? "";
   const result = await triggerSiteAudit(siteId);
   return success(c, result, "Audit started", 202);
 }
 
-export async function listSiteAuditsHandler(c: Context): Promise<Response> {
+export async function listSiteAuditsHandler(c: Context) {
   const siteId = c.req.param("siteId") ?? "";
   const query = PaginationSchema.safeParse(c.req.query());
   if (!query.success) throw new ValidationError("Invalid query params", z.treeifyError(query.error));
@@ -105,7 +105,7 @@ export async function listSiteAuditsHandler(c: Context): Promise<Response> {
   return success(c, result);
 }
 
-export async function getSiteTrendHandler(c: Context): Promise<Response> {
+export async function getSiteTrendHandler(c: Context) {
   const siteId = c.req.param("siteId") ?? "";
   const query = TrendSchema.safeParse(c.req.query());
   if (!query.success) throw new ValidationError("Invalid query params", z.treeifyError(query.error));

@@ -5,9 +5,17 @@ import type { ContentfulStatusCode } from "hono/utils/http-status";
 /**
  * Build a success response.
  * Usage: return success(c, data) or success(c, data, "Created", 201)
+ *
+ * S is inferred as the literal status code (e.g. 200, 201) so that
+ * Hono's InferResponseType can match on the exact status.
  */
-export function success<T>(c: Context, data: T, message = "", status: ContentfulStatusCode = 200) {
-  return c.json<ApiResponse<T>>(
+export function success<T, S extends ContentfulStatusCode = 200>(
+  c: Context,
+  data: T,
+  message = "",
+  status: S = 200 as S,
+) {
+  return c.json<ApiResponse<T>, S>(
     {
       code: "SUCCESS",
       message,
