@@ -73,3 +73,7 @@ Apply the [general coding guidelines](./general-coding.instructions.md) to all c
 - 避免在状态管理中存储大量数据，确保状态的轻量级和高效性。
 
 
+
+## 其他
+
+- 在 Next.js 16 中，Middleware 已经被重命名为 Proxy，以更好地反映其用途。功能保持不变。
