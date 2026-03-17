@@ -158,7 +158,9 @@ function parseRouteFile(content: string): {
     }
 
     // hasInput: true if there are validators OR route path contains params (e.g. /:id)
+    // POST/PUT/PATCH always have a body — treat them as hasInput even without a validator() declaration
     const hasPathParams = routePath.includes(":");
+    const isBodyMethod = ["post", "put", "patch"].includes(method);
 
     endpoints.push({
       method,
@@ -170,7 +172,7 @@ function parseRouteFile(content: string): {
       functionName: "",
       hookName: "",
       isQuery: method === "get",
-      hasInput: validators.length > 0 || hasPathParams,
+      hasInput: validators.length > 0 || hasPathParams || isBodyMethod,
     });
   }
 
@@ -336,8 +338,8 @@ function generateModuleCode(module: ModuleInfo, packageAlias: string, packageExp
 
   for (const ep of module.endpoints) {
     const typeAccess = `typeof api${ep.typeChain}`;
-    lines.push(`type ${ep.actionName}Input = InferRequestType<${typeAccess}>;`);
-    lines.push(`type ${ep.actionName}Output = ExtractData<InferResponseType<${typeAccess}, 200>>;`);
+    lines.push(`export type ${ep.actionName}Input = InferRequestType<${typeAccess}>;`);
+    lines.push(`export type ${ep.actionName}Output = ExtractData<InferResponseType<${typeAccess}, 200>>;`);
   }
   lines.push("");
 
@@ -508,6 +510,31 @@ function inferModuleName(typeName: string, endpoints: EndpointInfo[]): string {
   return unique.length === 1 ? (unique[0] ?? "") : "";
 }
 
+function buildModuleIndexExportLines(module: ModuleInfo): string[] {
+  const lines: string[] = [];
+  const modulePrefix = toPascalCase(module.moduleName);
+
+  const valueExports = new Set<string>([`${module.moduleName}Keys`]);
+  const typeExports: string[] = [];
+
+  for (const ep of module.endpoints) {
+    valueExports.add(ep.functionName);
+    valueExports.add(ep.hookName);
+    typeExports.push(`type ${ep.actionName}Input as ${modulePrefix}${ep.actionName}Input`);
+    typeExports.push(`type ${ep.actionName}Output as ${modulePrefix}${ep.actionName}Output`);
+  }
+
+  const exportSpecifiers = [...valueExports, ...typeExports];
+
+  lines.push(`export {`);
+  for (const specifier of exportSpecifiers) {
+    lines.push(`  ${specifier},`);
+  }
+  lines.push(`} from "./${module.fileName}";`);
+
+  return lines;
+}
+
 // ── Main ───────────────────────────────────────────────────────
 
 function main(): void {
@@ -629,7 +656,7 @@ function main(): void {
     " * Re-generate with: bun run generate:rpc",
     " */",
     "",
-    ...modules.map((m) => `export * from "./${m.fileName}";`),
+    ...modules.flatMap((m) => [...buildModuleIndexExportLines(m), ""]),
     "",
   ];
   writeFileSync(path.join(OUTPUT_DIR, "index.ts"), indexLines.join("\n"));
