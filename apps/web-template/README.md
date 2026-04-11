@@ -1,5 +1,11 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/create-next-app).
 
+## Shared Types Convention
+
+- 使用 `@repo/server-template-exports/rpc` 获取 RPC 路由类型（用于 hooks/client 生成）。
+- 若需要共享模块类型，请使用 `import type` 从 `@repo/server-template/modules/*/types` 直接导入。
+- 不再使用 `@repo/server-template-exports/types`。
+
 ## Getting Started
 
 First, run the development server:

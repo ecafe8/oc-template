@@ -17,7 +17,7 @@ if (!existsSync(exportsDir)) {
   mkdirSync(exportsDir, { recursive: true });
 }
 
-let files = fg.sync(["src/modules/*/routes/*.ts", "src/modules/*/route.ts"], { cwd: ROOT });
+const files = fg.sync(["src/modules/*/routes/*.ts", "src/modules/*/route.ts"], { cwd: ROOT });
 
 // 1. 收集模块信息
 const modules = files
@@ -75,15 +75,3 @@ ${typeFields}
 
 writeFileSync(path.join(exportsDir, "rpc.ts"), content);
 console.log("✅ Generated exports/rpc.ts (Proxy + React Query Support)");
-
-// 处理 types.ts (保持不变)
-files = fg.sync(["src/modules/*/type.ts"], { cwd: ROOT });
-let exportsTypes =
-  `export type { ApiResponse } from "../src/types/response";
-` + files.map((file) => `export * from "../src/${file.replace("src/", "")}";`).join("\n");
-
-const commonFiles = fg.sync(["src/modules/*/types/index.ts"], { cwd: ROOT });
-exportsTypes += `\n` + commonFiles.map((file) => `export * from "../src/${file.replace("src/", "")}";`).join("\n");
-
-writeFileSync(path.join(exportsDir, "types.ts"), `${exportsTypes}\n`);
-console.log("✅ Generated exports/types.ts");

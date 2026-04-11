@@ -11,6 +11,12 @@ This Turborepo includes the following packages/apps:
 - `@repo/biome-config`: `biome` configurations
 - `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
 
+### Shared Type Import Rule
+
+- RPC 类型通过 `@repo/server-template-exports/rpc` 使用。
+- 共享模块类型通过 `import type` 从 `@repo/server-template/modules/*/types` 直接导入。
+- 不再维护 `apps/server-template/exports/types.ts`。
+
 Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
 
 ### Utilities
@@ -110,6 +116,5 @@ export const toolRegistry = {
 
 export type AvailableTools = typeof allTools[number]["name"];
 ```
-
 
 

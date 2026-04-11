@@ -296,9 +296,9 @@ function generateModuleCode(module: ModuleInfo, packageAlias: string, packageExp
   lines.push(`import type { ${module.typeName} } from "${packageExportAlias}/rpc";`);
   lines.push("");
 
-  // Import shared types from the backend package (e.g. for request/response schemas)
+  // Import shared types from server modules (type-only import path)
   lines.push(`// 你可以在这里导入后端共享的类型，例如：`);
-  lines.push(`// import type { SomeType } from "${packageExportAlias}/types";`);
+  lines.push(`// import type { ExampleType } from "@repo/server-template/modules/sites/types";`);
   lines.push("");
   lines.push("");
 
