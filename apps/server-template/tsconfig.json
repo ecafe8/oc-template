@@ -3,6 +3,12 @@
   "compilerOptions": {
     "composite": true,
     "noEmit": true,
+    "target": "ESNext",
+    "module": "Preserve",
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "lib": ["ESNext"],
     "paths": {
       "@repo/server-template/*": ["./src/*"],
       "@repo/share-backend/*": ["../../packages/share-backend/src/*"]

@@ -101,11 +101,11 @@ class FileConverter {
     if (tableResult && tableResult.pages.length > 0) {
       markdownOutput += "\n\n## 结构化表格内容\n";
 
-      tableResult.pages.forEach((page, pageIndex) => {
+      tableResult.pages.forEach((page: { tables?: string[][][] }, pageIndex: number) => {
         if (page.tables && page.tables.length > 0) {
           markdownOutput += `\n### 页面 ${pageIndex + 1} 中的表格\n`;
 
-          page.tables.forEach((tableData: string[][], tableIndex) => {
+          page.tables.forEach((tableData: string[][], tableIndex: number) => {
             if (tableData.length === 0) return;
 
             // 确保表格有足够的行来区分表头和内容
@@ -219,7 +219,7 @@ class FileConverter {
     const workbook = XLSX.readFile(filePath);
     let htmlOutput = "";
 
-    workbook.SheetNames.forEach((sheetName) => {
+    workbook.SheetNames.forEach((sheetName: string) => {
       const worksheet = workbook.Sheets[sheetName];
 
       if (!worksheet) {
