@@ -1,13 +1,11 @@
 {
-	"extends": ["@repo/typescript-config/base.json"],
+	"extends": "@repo/typescript-config/node-library.json",
 	"compilerOptions": {
-		"baseUrl": ".",
+		"composite": true,
 		"paths": {
 			"@repo/share-backend/*": ["./src/*"]
-		},
-    "outDir": "dist",
-    "strictNullChecks": true
+		}
 	},
-	"include": ["src"],
+	"include": ["src/**/*.ts", "src/**/*.tsx"],
 	"exclude": ["dist", "build", "node_modules"]
 }

@@ -1,14 +1,11 @@
 {
 	"extends": "@repo/typescript-config/react-library.json",
 	"compilerOptions": {
-		"baseUrl": ".",
-		"rootDir": ".",
+		"composite": true,
 		"paths": {
 			"@repo/share-ui/*": ["./src/*"]
-		},
-    "outDir": "dist",
-    "strictNullChecks": true
+		}
 	},
-	"include": ["src"],
+	"include": ["src/**/*.ts", "src/**/*.tsx", "postcss.config.mjs"],
 	"exclude": ["dist", "build", "node_modules"]
 }

@@ -1,20 +1,13 @@
 {
   "extends": "@repo/typescript-config/nextjs.json",
   "compilerOptions": {
-    "baseUrl": ".",
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
+    "composite": true,
     "paths": {
       "@repo/server-template/*": ["../server-template/src/*"],
       "@repo/server-template-exports/*": ["../server-template/exports/*"],
       "@repo/web-template/*": ["./*"],
-      "@repo/share-ui/*": ["../../packages/share-ui/src/*"],
-      "@repo/share-frontend/*": ["../../packages/share-frontend/src/*"]
-    },
-    "strictNullChecks": true
+      "@repo/share-ui/*": ["../../packages/share-ui/src/*"]
+    }
   },
   "include": ["**/*.ts", "**/*.tsx", "next-env.d.ts", "next.config.js", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]

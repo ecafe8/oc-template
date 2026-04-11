@@ -39,3 +39,11 @@ yarn-error.log*
 .history
 
 !bun.lock
+
+# third-party submodule
+resource/ai-elements/node_modules
+resource/ai-elements/.turbo
+resource/ai-elements/.next
+resource/ai-elements/dist
+resource/ai-elements/build
+resource/ai-elements/coverage

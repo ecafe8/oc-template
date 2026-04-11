@@ -1,0 +1,7 @@
+# keep third-party submodules isolated from root tooling
+ai-elements/node_modules
+ai-elements/.turbo
+ai-elements/.next
+ai-elements/dist
+ai-elements/build
+ai-elements/coverage

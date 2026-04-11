@@ -1,12 +1,12 @@
 {
-  "extends": "@repo/typescript-config/base.json",
+  "extends": "@repo/typescript-config/browser-extension.json",
   "compilerOptions": {
-    "baseUrl": ".",
-    "rootDir": ".",
+    "composite": true,
     "paths": {
+      "@repo/share-ext": ["./index.ts"],
       "@repo/share-ext/*": ["./src/*"]
-    },
-    "types": ["chrome"],
-    "outDir": "dist"
-  }
+    }
+  },
+  "include": ["index.ts", "src/**/*.ts", "src/**/*.tsx"],
+  "exclude": ["dist", "build", "node_modules"]
 }
