@@ -1,23 +1,24 @@
-## 1. Generator Simplification
+## 1. 生成链路简化
 
-- [ ] 1.1 Update `apps/server-template/scripts/generate-rpc-type.ts` to stop generating `exports/types.ts`.
-- [ ] 1.2 Verify generation command still produces valid `exports/rpc.ts` and related RPC artifacts.
-- [ ] 1.3 Remove stale references to `exports/types.ts` in script comments or command docs.
+- [ ] 1.1 修改 `apps/server-template/scripts/generate-rpc-type.ts`，停止生成 `exports/types.ts`。
+- [ ] 1.2 验证生成命令仍能正确产出 `exports/rpc.ts` 与相关 RPC 产物。
+- [ ] 1.3 清理脚本注释与文档中对 `exports/types.ts` 的过期引用。
 
-## 2. Import Boundary Migration
+## 2. 导入边界迁移
 
-- [ ] 2.1 Identify existing consumers of shared server types and migrate them to direct `import type` from server module `types` paths.
-- [ ] 2.2 Keep runtime imports unchanged; only migrate type-level imports required by this change.
-- [ ] 2.3 Confirm migrated import paths are stable and aligned with module ownership.
+- [ ] 2.1 识别现有共享 server 类型的消费方，迁移为从 server module `types` 路径直接 `import type`。
+- [ ] 2.2 保持运行时导入不变，仅迁移本次变更要求的类型导入。
+- [ ] 2.3 确认迁移后的导入路径稳定，并与模块所有权一致。
 
-## 3. Guardrails and Verification
+## 3. Guardrails 与验证
 
-- [ ] 3.1 Add or update lint/static rules to block runtime imports from server internals in frontend/shared contexts.
-- [ ] 3.2 Allowlist/encourage type-only imports from server module `types` directories.
-- [ ] 3.3 Run workspace typecheck/lint for affected apps and fix any boundary regressions.
+- [ ] 3.1 新增或更新 lint/静态规则，阻止 frontend/shared 场景对 server 内部运行时模块的导入。
+- [ ] 3.2 对 server module `types` 目录建立 type-only 导入白名单或等价约束。
+- [ ] 3.3 执行受影响范围的 `bun run lint` 与 `bun run check-types`，修复边界回归。
+- [ ] 3.4 执行受影响范围测试（如 `bun test` 或包级测试命令）；若无测试覆盖则在 PR/变更说明中明确记录。
 
-## 4. Documentation and Rollout
+## 4. 文档与发布
 
-- [ ] 4.1 Update README/docs to describe the new shared type import convention.
-- [ ] 4.2 Add a short migration note for template users moving from `exports/types.ts`.
-- [ ] 4.3 Validate OpenSpec artifacts are complete and ready for `/opsx:apply`.
+- [ ] 4.1 更新 README/文档，说明新的共享类型导入约定。
+- [ ] 4.2 为从 `exports/types.ts` 迁移的模板使用者补充简短迁移说明。
+- [ ] 4.3 复核 OpenSpec artifacts 与 `openspec/config.yaml` 规则一致，确认可进入 `/opsx:apply`。

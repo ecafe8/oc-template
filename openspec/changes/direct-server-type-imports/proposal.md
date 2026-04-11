@@ -1,18 +1,24 @@
 ## Why
 
-Current type sharing relies on generating `apps/server-template/exports/types.ts`, but this file is only a re-export bridge and adds maintenance overhead. In this monorepo template, frontend can already resolve server source paths, so we should simplify the flow and reduce generated artifacts.
+当前类型共享依赖生成 `apps/server-template/exports/types.ts`，但该文件本质是薄 re-export 层，长期带来额外维护与评审噪音。该模板仓库已具备跨包源码路径解析能力，可以改为直接类型导入，减少生成面与心智负担。
 
 ## What Changes
 
-- Stop generating `apps/server-template/exports/types.ts` in the server RPC/type generation script.
-- Switch frontend/server shared type usage to direct `import type` from `apps/server-template/src/modules/**/types`.
-- Define and enforce import boundary rules so frontend only imports type-only modules from server source paths.
-- Update documentation and migration guidance for developers using shared types.
+In Scope:
+- 停止在 server 侧生成 `apps/server-template/exports/types.ts`。
+- 前后端共享类型改为从 `apps/server-template/src/modules/**/types` 进行 `import type`。
+- 增加导入边界约束，限制 frontend/shared 场景仅做 type-only 导入。
+- 更新 README/脚本说明，补充迁移指引。
+
+Out of Scope:
+- 不调整 RPC 运行时协议与 API 行为。
+- 不重构 server 模块目录结构。
+- 不引入新的业务能力，仅优化类型共享方式与工程约束。
 
 ## Capabilities
 
 ### New Capabilities
-- `direct-server-type-sharing`: Frontend and other workspace packages can consume server module types directly via type-only imports without a generated `exports/types.ts` bridge.
+- `direct-server-type-sharing`: frontend 与其他 workspace 包可通过 type-only 方式直接消费 server module 类型，无需 `exports/types.ts` 桥接文件。
 
 ### Modified Capabilities
 - (none)
@@ -21,11 +27,11 @@ Current type sharing relies on generating `apps/server-template/exports/types.ts
 
 - Affected code:
   - `apps/server-template/scripts/generate-rpc-type.ts`
-  - Type imports in `apps/web-template` and potentially shared packages
-  - Documentation in app/package READMEs
+  - `apps/web-template` 与可能受影响的共享包类型导入语句
+  - 应用与包级 README/脚本注释
 - APIs:
-  - No runtime API contract changes
-  - Internal type import paths change
+  - 无运行时 API 契约变化
+  - 内部类型导入路径发生调整
 - Tooling:
-  - Reduced generated files and generation surface area
-  - Requires lint/guardrails to prevent runtime imports from server internals
+  - 减少生成文件与生成链路复杂度
+  - 需要 lint/静态规则防止误导入 server 运行时代码
