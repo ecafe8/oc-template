@@ -36,7 +36,7 @@ Apply the [general coding guidelines](./general-coding.instructions.md) to all c
       - 命名规则：`index.ts`，导出的类型命名为 `RPC[Module]RoutesType`。命名必须包含 `RPC` 前缀，以明确表示这是供前端调用的接口定义。并且前端生成器需要使用这个命名规则来正确识别和生成对应的 API 客户端代码。
       - 必须使用链式调用定义路由，以确保 TypeScript 能正确推导类型。
   - `src/modules/[module]/errors` 目录下存放该模块特有的错误定义。
-  - `src/modules/[module]/help` 目录下存放该模块特有的辅助代码。
+  - `src/modules/[module]/helpers` 目录下存放该模块特有的辅助代码。
   - 类型和常量放到 `packages/share-common/src/modules/[module]` 中，供前后端共享。
   - `packages/share-common/src/modules/[module]/constants` 目录下存放该模块特有的常量定义。
   - `packages/share-common/src/modules/[module]/types` 目录下存放该模块特有的类型定义。

@@ -25,13 +25,13 @@ import {
  * GET    /sites/:siteId/trend          GEO Index trend data
  */
 export const sitesRoutes = new Hono()
-  .get("/sites", describeRoute(honoDescribeRoute("Sites")), listSitesHandler)
-  .post("/sites", describeRoute(honoDescribeRoute("Sites")), createSiteHandler)
-  .get("/sites/:siteId", describeRoute(honoDescribeRoute("Sites")), getSiteHandler)
-  .patch("/sites/:siteId", describeRoute(honoDescribeRoute("Sites")), updateSiteHandler)
-  .delete("/sites/:siteId", describeRoute(honoDescribeRoute("Sites")), deleteSiteHandler)
-  .post("/sites/:siteId/audit", describeRoute(honoDescribeRoute("Sites")), triggerSiteAuditHandler)
-  .get("/sites/:siteId/audits", describeRoute(honoDescribeRoute("Sites")), listSiteAuditsHandler)
-  .get("/sites/:siteId/trend", describeRoute(honoDescribeRoute("Sites")), getSiteTrendHandler);
+  .get("/sites", describeRoute(honoDescribeRoute("Sites")), (c) => listSitesHandler(c))
+  .post("/sites", describeRoute(honoDescribeRoute("Sites")), (c) => createSiteHandler(c))
+  .get("/sites/:siteId", describeRoute(honoDescribeRoute("Sites")), (c) => getSiteHandler(c))
+  .patch("/sites/:siteId", describeRoute(honoDescribeRoute("Sites")), (c) => updateSiteHandler(c))
+  .delete("/sites/:siteId", describeRoute(honoDescribeRoute("Sites")), (c) => deleteSiteHandler(c))
+  .post("/sites/:siteId/audit", describeRoute(honoDescribeRoute("Sites")), (c) => triggerSiteAuditHandler(c))
+  .get("/sites/:siteId/audits", describeRoute(honoDescribeRoute("Sites")), (c) => listSiteAuditsHandler(c))
+  .get("/sites/:siteId/trend", describeRoute(honoDescribeRoute("Sites")), (c) => getSiteTrendHandler(c));
 
 export type RPCSitesRoutesType = typeof sitesRoutes;
