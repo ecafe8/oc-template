@@ -3,6 +3,7 @@ import { ErrorCodes } from "@server/auth/errors/error-codes";
 import { auth } from "@server/auth/lib/auth";
 import { honoDescribeRoute } from "@server/auth/utils/hono";
 import { fail, success } from "@server/auth/utils/response";
+import { toAuthenticatedUser } from "@repo/share-auth";
 import { Hono } from "hono";
 import { describeRoute } from "hono-openapi";
 
@@ -34,15 +35,7 @@ export const internalRoutes = new Hono().post(
     if (!session?.user) {
       return fail(c, ErrorCodes.AUTH_TOKEN_INVALID, "Invalid or expired session", 401);
     }
-    return success(c, {
-      id: session.user.id,
-      email: session.user.email,
-      name: session.user.name,
-      image: session.user.image ?? null,
-      emailVerified: session.user.emailVerified,
-      createdAt: session.user.createdAt,
-      updatedAt: session.user.updatedAt,
-    });
+    return success(c, toAuthenticatedUser(session.user));
   },
 );
 

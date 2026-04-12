@@ -12,10 +12,12 @@
     "gen:rpc": "bun run scripts/generate-rpc.ts --server=server-template --packageExportAlias=@repo/server-template --packageAlias=@repo/server-template"
   },
   "dependencies": {
+    "@repo/share-auth": "workspace:*",
     "@countrystatecity/countries": "^1.0.5",
     "@repo/server-template": "*",
     "@repo/share-ui": "*",
     "@tanstack/react-query": "^5.90.21",
+    "hono": "4.12.6",
     "next": "^16.1.2"
   },
   "devDependencies": {

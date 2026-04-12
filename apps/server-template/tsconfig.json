@@ -10,6 +10,8 @@
     "verbatimModuleSyntax": true,
     "lib": ["ESNext"],
     "paths": {
+      "@repo/share-auth": ["../../packages/share-auth/src/index.ts"],
+      "@repo/share-auth/*": ["../../packages/share-auth/src/*"],
       "@repo/server-template/*": ["./src/*"],
       "@repo/share-backend/*": ["../../packages/share-backend/src/*"]
     },
@@ -20,6 +22,12 @@
     "noUnusedParameters": false,
     "noPropertyAccessFromIndexSignature": false
   },
-  "include": ["src/**/*.ts", "exports/**/*.ts", "scripts/**/*.ts", "drizzle.config.ts"],
+  "include": [
+    "src/**/*.ts",
+    "exports/**/*.ts",
+    "scripts/**/*.ts",
+    "drizzle.config.ts",
+    "../../packages/share-auth/src/**/*.ts"
+  ],
   "exclude": ["dist", "node_modules"]
 }

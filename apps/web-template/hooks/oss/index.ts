@@ -22,6 +22,17 @@ export interface OssUploadResult {
   filename: string;
 }
 
+interface OssSignaturePayload {
+  host: string;
+  policy: string;
+  x_oss_signature_version: string;
+  x_oss_credential: string;
+  x_oss_date: string;
+  signature: string;
+  dir: string;
+  security_token: string;
+}
+
 function buildObjectKey(dir: string, filename: string): string {
   const normalizedDir = dir.endsWith("/") ? dir : `${dir}/`;
   return `${normalizedDir}${filename}`;
@@ -72,7 +83,7 @@ function uploadToOssWithProgress(
  * 先向后端申请签名，再由浏览器直传文件到 OSS。
  */
 export async function uploadFileToOss(input: OssUploadInput): Promise<OssUploadResult> {
-  const signature = await signatureOssApi(createSignatureRequest(input));
+  const signature = (await signatureOssApi(createSignatureRequest(input))) as OssSignaturePayload;
   const filename = input.filename ?? input.file.name;
   const key = buildObjectKey(signature.dir, filename);
   const formData = new FormData();

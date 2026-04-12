@@ -1,46 +1,21 @@
 import { auth } from "@server/auth/lib/auth";
-
-export interface UserProfile {
-  id: string;
-  email: string;
-  name: string;
-  image: string | null;
-  emailVerified: boolean;
-  createdAt: Date;
-  updatedAt: Date;
-}
+import { toAuthenticatedUser, type AuthenticatedUser } from "@repo/share-auth";
 
 export interface UpdateUserInput {
   name?: string;
   image?: string;
 }
 
-export async function getUserFromHeaders(headers: Headers): Promise<UserProfile | null> {
+export async function getUserFromHeaders(headers: Headers): Promise<AuthenticatedUser | null> {
   const session = await auth.api.getSession({ headers });
   if (!session?.user) return null;
-  return {
-    id: session.user.id,
-    email: session.user.email,
-    name: session.user.name,
-    image: session.user.image ?? null,
-    emailVerified: session.user.emailVerified,
-    createdAt: session.user.createdAt,
-    updatedAt: session.user.updatedAt,
-  };
+  return toAuthenticatedUser(session.user);
 }
 
-export async function updateUser(headers: Headers, input: UpdateUserInput): Promise<UserProfile | null> {
+export async function updateUser(headers: Headers, input: UpdateUserInput): Promise<AuthenticatedUser | null> {
   const result = await auth.api.updateUser({ body: input, headers });
   if (!result) return null;
   const session = await auth.api.getSession({ headers });
   if (!session?.user) return null;
-  return {
-    id: session.user.id,
-    email: session.user.email,
-    name: session.user.name,
-    image: session.user.image ?? null,
-    emailVerified: session.user.emailVerified,
-    createdAt: session.user.createdAt,
-    updatedAt: session.user.updatedAt,
-  };
+  return toAuthenticatedUser(session.user);
 }

@@ -44,32 +44,19 @@ const importLines = modules.map((m) => `import type { ${m.typeName} } from "${m.
 const reExportLines = modules.map((m) => `export type { ${m.typeName} };`).join("\n");
 
 // 3. 生成类型定义映射
-const inferenceLines = modules
-  .map((m) => `const _${m.pascalCaseName}Client = hc<${m.typeName}>(process.env.NEXT_PUBLIC_API_URL!);`)
-  .join("\n");
-
-const typeFields = modules
-  .map((m) => `  ${m.pascalCaseName}: typeof _${m.pascalCaseName}Client.${m.snakeCaseName};`)
-  .join("\n");
-
 // 4. 组装最终内容
-const content = `import { hc } from "hono/client";
-import type { ClientResponse } from "hono/client";
-export { type ClientRequest, type ClientResponse, hc } from "hono/client";
+const content = `export { hc } from "hono/client";
+export type { ClientRequest, ClientResponse } from "hono/client";
 export type { StatusCode } from "hono/utils/http-status";
+export type InferRequestType<T> = import("hono/client").InferRequestType<T>;
+export type InferResponseType<T, U extends import("hono/utils/http-status").StatusCode = import("hono/utils/http-status").StatusCode> = import("hono/client").InferResponseType<T, U>;
 ${importLines}
 
 // --- Export RPC types for frontend use ---
 ${reExportLines}
 
-// --- 类型推断辅助 ---
-${inferenceLines}
-
 // --- 类型定义 ---
-
-export type AppRPC = {
-${typeFields}
-};
+export type AppRPC = Record<string, never>;
 
 `;
 

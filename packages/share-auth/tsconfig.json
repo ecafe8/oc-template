@@ -1,0 +1,11 @@
+{
+  "extends": "@repo/typescript-config/node-library.json",
+  "compilerOptions": {
+    "composite": true,
+    "paths": {
+      "@repo/share-auth/*": ["./src/*"]
+    }
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["dist", "build", "node_modules"]
+}

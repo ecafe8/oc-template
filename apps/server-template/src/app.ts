@@ -25,12 +25,11 @@ app.use(corsMiddleware);
 // 4. Error handler — wraps everything below in try/catch
 errorHandler(app);
 
-app.use(authMiddleware);
-
 app.use(contextStorage());
 
 // 5. Rate limiter — after CORS, before routes
 app.use("/api/*", rateLimiterMiddleware);
+app.use("/api/*", authMiddleware);
 
 // --- Health Check (outside /api/ prefix, no auth) ---
 app.get("/health", async (c) => {

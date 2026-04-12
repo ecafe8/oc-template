@@ -13,6 +13,7 @@
     "auth:migrate": "npx @better-auth/cli migrate --config src/lib/auth/index.ts"
   },
   "dependencies": {
+    "@repo/share-auth": "workspace:*",
     "@hono/zod-validator": "^0.7.6",
     "@repo/share-ui": "workspace:*",
     "@scalar/hono-api-reference": "^0.9.18",

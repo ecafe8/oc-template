@@ -9,12 +9,21 @@
       }
     ],
     "paths": {
+      "@repo/share-auth": ["../../packages/share-auth/src/index.ts"],
+      "@repo/share-auth/*": ["../../packages/share-auth/src/*"],
       "@server/auth/*": ["./src/*"],
       "@repo/share-ui/*": ["../../packages/share-ui/src/*"],
       "@repo/share-backend/*": ["../../packages/share-backend/src/*"]
     },
     "strictNullChecks": true
   },
-  "include": ["**/*.ts", "**/*.tsx", "next-env.d.ts", "next.config.ts", ".next/types/**/*.ts"],
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "next-env.d.ts",
+    "next.config.ts",
+    ".next/types/**/*.ts",
+    "../../packages/share-auth/src/**/*.ts"
+  ],
   "exclude": ["node_modules"]
 }

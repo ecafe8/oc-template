@@ -3,7 +3,9 @@
   "compilerOptions": {
     "composite": true,
     "paths": {
+      "@repo/share-auth": ["../../packages/share-auth/src/index.ts"],
       "@repo/server-template/rpc": ["../server-template/exports/rpc.ts"],
+      "@repo/share-auth/*": ["../../packages/share-auth/src/*"],
       "@repo/share-ui/*": ["../../packages/share-ui/src/*"],
       "@repo/web-template/*": ["./*"]
     }
@@ -12,6 +14,13 @@
     { "path": "../server-template/tsconfig.refs.json" },
     { "path": "../../packages/share-ui/tsconfig.build.json" }
   ],
-  "include": ["**/*.ts", "**/*.tsx", "next-env.d.ts", "next.config.js", ".next/types/**/*.ts"],
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "next-env.d.ts",
+    "next.config.js",
+    ".next/types/**/*.ts",
+    "../../packages/share-auth/src/**/*.ts"
+  ],
   "exclude": ["node_modules"]
 }

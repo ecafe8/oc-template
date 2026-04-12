@@ -1,44 +1,38 @@
 import { env } from "@repo/server-template/config/env";
+import { verifySessionFromHeaders } from "@repo/share-auth";
 import { AuthError, ForbiddenError } from "@repo/server-template/errors/app-error";
 import { ErrorCode } from "@repo/server-template/errors/error-codes";
 import type { AppEnv } from "@repo/server-template/types/index";
 import type { Context, Next } from "hono";
-import { verify } from "hono/jwt";
-
-/** JWT payload shape */
-export interface JwtPayload {
-  sub: string;
-  role: string;
-  exp: number;
-  iat: number;
-}
 
 /**
- * Auth middleware: verifies JWT and injects user info into context.
- * Applied per-route, not globally.
+ * Auth middleware: delegates session verification to the centralized auth service
+ * and injects user info into context.
  */
 export const authMiddleware = async (c: Context<AppEnv>, next: Next): Promise<void> => {
-  // 开发模式下跳过 /api/docs 的认证，方便访问文档界面
-  if (env.NODE_ENV === "development" && c.req.path.startsWith("/api/docs")) {
+  if (env.NODE_ENV === "development" && (c.req.path.startsWith("/api/docs") || c.req.path.startsWith("/api/openapi"))) {
     await next();
     return;
   }
 
-  const authHeader = c.req.header("Authorization");
+  const result = await verifySessionFromHeaders(c.req.raw.headers, {
+    authBaseUrl: env.AUTH_SERVICE_URL,
+    internalApiSecret: env.INTERNAL_API_SECRET,
+  });
 
-  if (!authHeader?.startsWith("Bearer ")) {
-    throw new AuthError(ErrorCode.AUTH_UNAUTHORIZED, "Missing or invalid Authorization header");
-  }
-
-  const token = authHeader.slice(7);
-
-  try {
-    const payload = (await verify(token, env.JWT_SECRET, "HS256")) as unknown as JwtPayload;
-    c.set("userId", payload.sub);
-    c.set("userRole", payload.role);
-  } catch {
+  if (result.status === 401) {
     throw new AuthError(ErrorCode.AUTH_TOKEN_INVALID, "Invalid or expired token");
   }
+
+  if (result.status === 403) {
+    throw new ForbiddenError("Forbidden");
+  }
+
+  if (!result.ok || !result.user) {
+    throw new AuthError(ErrorCode.AUTH_UNAUTHORIZED, "Unable to verify current session");
+  }
+
+  c.set("userId", result.user.id);
 
   await next();
 };

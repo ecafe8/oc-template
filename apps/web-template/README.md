@@ -7,6 +7,32 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
+### Auth Integration
+
+`web-template` can delegate login to `apps/server-auth`.
+
+Recommended local env:
+
+```bash
+NEXT_PUBLIC_API_URL=http://localhost:3300/api
+AUTH_BASE_URL=http://localhost:4999
+NEXT_PUBLIC_AUTH_BASE_URL=http://localhost:4999
+```
+
+Login flow:
+
+- Visit `http://localhost:3000`
+- If unauthenticated, the app redirects to `http://localhost:4999/login`
+- After sign-in, `server-auth` redirects back to `web-template`
+- `web-template` reads the session through `/api/auth/session`
+
+Protected route strategy:
+
+- `proxy.ts` is the first guard and automatically intercepts configured business routes.
+- Current protected paths are `/` and `/test/*`.
+- Add more protected business pages in `lib/auth/protected-routes.ts`.
+- Server Components that need the current user can reuse `lib/auth/require-auth.ts`.
+
 First, run the development server:
 
 ```bash

@@ -10,6 +10,24 @@ bun install
 bun run dev
 ```
 
+## Auth Integration
+
+`server-template` no longer verifies local JWTs by itself. It delegates auth validation to `apps/server-auth`.
+
+Required env:
+
+```bash
+AUTH_SERVICE_URL=http://localhost:4999
+INTERNAL_API_SECRET=the-same-secret-configured-in-server-auth
+```
+
+Request flow:
+
+- Browser sends session cookie or bearer token to `server-template`
+- `server-template` forwards auth headers to `server-auth /api/internal/verify`
+- `server-auth` returns the resolved user
+- `server-template` injects `userId` into Hono context
+
 ## RPC Types
 生成 RPC 类型导出：
 
