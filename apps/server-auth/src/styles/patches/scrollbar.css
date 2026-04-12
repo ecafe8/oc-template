@@ -1,0 +1,82 @@
+div,
+main,
+ol,
+pre,
+span,
+ul {
+  scrollbar-width: thin;
+  scrollbar-color: var(--bs-scrollbar-color) transparent;
+}
+
+div::-webkit-scrollbar,
+main::-webkit-scrollbar,
+ol::-webkit-scrollbar,
+pre::-webkit-scrollbar,
+span::-webkit-scrollbar,
+ul::-webkit-scrollbar {
+  width: var(--bs-scrollbar-size);
+  height: var(--bs-scrollbar-size);
+}
+
+div ::-webkit-scrollbar-track,
+main ::-webkit-scrollbar-track,
+ol ::-webkit-scrollbar-track,
+pre ::-webkit-scrollbar-track,
+span ::-webkit-scrollbar-track,
+ul ::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+div ::-webkit-scrollbar-thumb,
+main ::-webkit-scrollbar-thumb,
+ol ::-webkit-scrollbar-thumb,
+pre ::-webkit-scrollbar-thumb,
+span ::-webkit-scrollbar-thumb,
+ul ::-webkit-scrollbar-thumb {
+  border-radius: var(--bs-scrollbar-size);
+}
+
+div::-webkit-scrollbar-thumb,
+main::-webkit-scrollbar-thumb,
+ol::-webkit-scrollbar-thumb,
+pre::-webkit-scrollbar-thumb,
+span::-webkit-scrollbar-thumb,
+ul::-webkit-scrollbar-thumb {
+  background-color: var(--bs-scrollbar-color);
+}
+
+div::-webkit-scrollbar-corner,
+main::-webkit-scrollbar-corner,
+ol::-webkit-scrollbar-corner,
+pre::-webkit-scrollbar-corner,
+span::-webkit-scrollbar-corner,
+ul::-webkit-scrollbar-corner {
+  background-color: transparent;
+}
+
+div:hover,
+main:hover,
+ol:hover,
+pre:hover,
+span:hover,
+ul:hover {
+  scrollbar-color: var(--bs-scrollbar-hover-color) transparent;
+}
+
+div:hover::-webkit-scrollbar-thumb,
+main:hover::-webkit-scrollbar-thumb,
+ol:hover::-webkit-scrollbar-thumb,
+pre:hover::-webkit-scrollbar-thumb,
+span:hover::-webkit-scrollbar-thumb,
+ul:hover::-webkit-scrollbar-thumb {
+  background-color: var(--bs-scrollbar-hover-color);
+}
+
+div:hover::-webkit-scrollbar-corner,
+main:hover::-webkit-scrollbar-corner,
+ol:hover::-webkit-scrollbar-corner,
+pre:hover::-webkit-scrollbar-corner,
+span:hover::-webkit-scrollbar-corner,
+ul:hover::-webkit-scrollbar-corner {
+  background-color: transparent;
+}
