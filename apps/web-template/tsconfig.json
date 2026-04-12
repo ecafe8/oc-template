@@ -3,12 +3,15 @@
   "compilerOptions": {
     "composite": true,
     "paths": {
-      "@repo/server-template/*": ["../server-template/src/*"],
-      "@repo/server-template-exports/*": ["../server-template/exports/*"],
-      "@repo/web-template/*": ["./*"],
-      "@repo/share-ui/*": ["../../packages/share-ui/src/*"]
+      "@repo/server-template/rpc": ["../server-template/exports/rpc.ts"],
+      "@repo/share-ui/*": ["../../packages/share-ui/src/*"],
+      "@repo/web-template/*": ["./*"]
     }
   },
+  "references": [
+    { "path": "../server-template/tsconfig.refs.json" },
+    { "path": "../../packages/share-ui/tsconfig.build.json" }
+  ],
   "include": ["**/*.ts", "**/*.tsx", "next-env.d.ts", "next.config.js", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
 }

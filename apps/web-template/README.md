@@ -2,9 +2,8 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Shared Types Convention
 
-- 使用 `@repo/server-template-exports/rpc` 获取 RPC 路由类型（用于 hooks/client 生成）。
-- 若需要共享模块类型，请使用 `import type` 从 `@repo/server-template/modules/*/types` 直接导入。
-- 不再使用 `@repo/server-template-exports/types`。
+- 使用 `@repo/server-template/rpc` 获取 RPC 路由类型（用于 hooks/client 生成）。
+- 避免在前端直接导入 `server-template` 内部源码路径，优先通过公开导出的包入口消费类型。
 
 ## Getting Started
 

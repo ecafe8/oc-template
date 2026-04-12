@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "composite": true,
+    "noEmit": false,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "outDir": "./dist-types",
+    "rootDir": ".",
+    "tsBuildInfoFile": "./dist-types/.tsbuildinfo"
+  },
+  "references": [{ "path": "../../packages/share-backend/tsconfig.build.json" }],
+  "include": ["src/**/*.ts", "exports/**/*.ts"],
+  "exclude": ["dist", "dist-types", "node_modules", "scripts", "drizzle.config.ts"]
+}

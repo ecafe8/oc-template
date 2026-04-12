@@ -30,3 +30,6 @@ lerna-debug.log*
 # RPC generated files
 /exports/*
 !/exports/.gitkeep
+
+# Type declaration build outputs
+/dist-types/
