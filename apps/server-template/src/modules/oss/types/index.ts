@@ -44,6 +44,18 @@ export interface OssUploadNetworkFileInput extends OssUploadInput {
   url: string;
 }
 
+export interface OssUploadNetworkFileResult {
+  url: string;
+}
+
+export interface OssDeleteFilesInput {
+  paths: string[];
+}
+
+export interface OssDeleteFilesResult {
+  success: boolean;
+}
+
 export interface OssTemporaryCredentials {
   AccessKeyId: string;
   AccessKeySecret: string;

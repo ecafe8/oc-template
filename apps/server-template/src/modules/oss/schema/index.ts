@@ -24,6 +24,10 @@ export const uploadNetworkFileZod = z.object({
   filename: z.string().min(1),
 });
 
+export const uploadNetworkFileResultZod = z.object({
+  url: z.string().url(),
+});
+
 export const uploadBufferZod = z.object({
   buffer: z.instanceof(Buffer),
   path: z.string().min(1),
@@ -31,3 +35,11 @@ export const uploadBufferZod = z.object({
 });
 
 export const deleteFilesZod = z.array(z.string().min(1));
+
+export const deleteFilesRequestZod = z.object({
+  paths: deleteFilesZod.min(1),
+});
+
+export const deleteFilesResultZod = z.object({
+  success: z.boolean(),
+});

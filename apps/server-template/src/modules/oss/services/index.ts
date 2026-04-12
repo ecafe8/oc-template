@@ -162,7 +162,7 @@ class OssService {
       getStandardRegion(client.options.region),
       client.options.accessKeyId,
     );
-    const dir = normalizeOssDir(resolvedInput.dir ?? `${env.OSS_UPLOAD_DIR_PREFIX}/${resolvedInput.userId}`);
+    const dir = normalizeOssDir(env.OSS_UPLOAD_DIR_PREFIX, resolvedInput.dir ?? String(resolvedInput.userId));
     const policy: OssPolicy = {
       expiration: expirationDate.toISOString(),
       conditions: [
