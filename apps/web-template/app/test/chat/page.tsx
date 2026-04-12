@@ -287,11 +287,11 @@ const Example = () => {
   const [text, setText] = useState<string>("");
   const [useWebSearch, setUseWebSearch] = useState<boolean>(false);
   const [useMicrophone, setUseMicrophone] = useState<boolean>(false);
-  const [status, setStatus] = useState<"submitted" | "streaming" | "ready" | "error">("ready");
+  const [_status, setStatus] = useState<"submitted" | "streaming" | "ready" | "error">("ready");
   const [messages, setMessages] = useState<MessageType[]>([]);
-  const [streamingMessageId, setStreamingMessageId] = useState<string | null>(null);
+  const [_streamingMessageId, setStreamingMessageId] = useState<string | null>(null);
 
-  const streamReasoning = async (messageKey: string, versionId: string, reasoningContent: string) => {
+  const streamReasoning = useCallback(async (messageKey: string, _versionId: string, reasoningContent: string) => {
     const words = reasoningContent.split(" ");
     let currentContent = "";
 
@@ -326,9 +326,9 @@ const Example = () => {
         return msg;
       }),
     );
-  };
+  }, []);
 
-  const streamContent = async (messageKey: string, versionId: string, content: string) => {
+  const streamContent = useCallback(async (messageKey: string, versionId: string, content: string) => {
     const words = content.split(" ");
     let currentContent = "";
 
@@ -359,7 +359,7 @@ const Example = () => {
         return msg;
       }),
     );
-  };
+  }, []);
 
   const streamMessageResponse = useCallback(
     async (
@@ -383,7 +383,7 @@ const Example = () => {
       setStatus("ready");
       setStreamingMessageId(null);
     },
-    [],
+    [streamContent, streamReasoning],
   );
 
   const streamMessage = useCallback(
@@ -433,7 +433,9 @@ const Example = () => {
       setTimeout(() => {
         const assistantMessageKey = `assistant-${Date.now()}`;
         const assistantMessageId = `version-${Date.now()}`;
-        const randomMessageResponse = mockMessageResponses[Math.floor(Math.random() * mockMessageResponses.length)];
+        const randomMessageResponse =
+          mockMessageResponses[Math.floor(Math.random() * mockMessageResponses.length)] ??
+          "I'm here and ready to help with whatever you want to explore next.";
 
         // Create reasoning for some responses
         const shouldHaveReasoning = Math.random() > 0.5;
@@ -473,7 +475,13 @@ const Example = () => {
 
     const processMessages = async () => {
       for (let i = 0; i < mockMessages.length; i++) {
-        await streamMessage(mockMessages[i]);
+        const message = mockMessages[i];
+
+        if (!message) {
+          continue;
+        }
+
+        await streamMessage(message);
 
         if (i < mockMessages.length - 1) {
           await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -558,7 +566,7 @@ const Example = () => {
                 ))}
               </MessageBranchContent>
               {versions.length > 1 && (
-                <MessageBranchSelector className="px-0" from={message.from}>
+                <MessageBranchSelector className="px-0">
                   <MessageBranchPrevious />
                   <MessageBranchPage />
                   <MessageBranchNext />
