@@ -1,6 +1,7 @@
 import { honoDescribeRoute } from "@repo/server-template/utils/hono";
 import { Hono } from "hono";
 import { describeRoute } from "hono-openapi";
+import type { AppEnv } from "../../../types";
 import {
   createSiteHandler,
   deleteSiteHandler,
@@ -24,7 +25,7 @@ import {
  * GET    /sites/:siteId/audits         List audits for a site
  * GET    /sites/:siteId/trend          GEO Index trend data
  */
-export const sitesRoutes = new Hono()
+export const sitesRoutes = new Hono<AppEnv>()
   .get("/sites", describeRoute(honoDescribeRoute("Sites")), (c) => listSitesHandler(c))
   .post("/sites", describeRoute(honoDescribeRoute("Sites")), (c) => createSiteHandler(c))
   .get("/sites/:siteId", describeRoute(honoDescribeRoute("Sites")), (c) => getSiteHandler(c))

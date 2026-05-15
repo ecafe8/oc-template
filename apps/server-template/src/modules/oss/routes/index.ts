@@ -2,6 +2,7 @@ import { honoDescribeRoute } from "@repo/server-template/utils/hono";
 import { Hono } from "hono";
 import { validator } from "hono/validator";
 import { describeRoute } from "hono-openapi";
+import type { AppEnv } from "../../../types";
 import { deleteOssFilesHandler, generateOssSignatureHandler, uploadOssNetworkFileHandler } from "../controllers";
 import {
   deleteFilesRequestZod,
@@ -19,7 +20,7 @@ import {
  * POST /oss/network-file   Upload a remote file through backend
  * POST /oss/delete         Delete OSS objects in batch
  */
-export const ossRoutes = new Hono()
+export const ossRoutes = new Hono<AppEnv>()
   .post(
     "/oss/signature",
     describeRoute(honoDescribeRoute("OSS", ossGetSignatureResultZod)),
