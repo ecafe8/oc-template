@@ -29,6 +29,9 @@ const envSchema = z.object({
 
   GOOGLE_CLIENT_ID: z.string().optional(),
   GOOGLE_CLIENT_SECRET: z.string().optional(),
+
+  // Email allowed to access API docs (Scalar/OpenAPI) in production
+  AUTH_API_DOCS_ADMIN_EMAIL: z.string().email().optional(),
 });
 
 const parsed = envSchema.safeParse(process.env);

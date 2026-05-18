@@ -2,7 +2,7 @@ import { OSS_SIGNATURE_VERSION } from "@repo/server-template/modules/oss/types";
 import { z } from "zod";
 
 export const ossGetSignatureInputZod = z.object({
-  userId: z.number().int().positive(),
+  userId: z.string().min(1),
   dir: z.string().min(1).optional(),
   expiresInSeconds: z.number().int().min(1).max(3600).optional(),
 });

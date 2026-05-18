@@ -56,8 +56,8 @@ const OssSdk = OSS as unknown as OssSdkConstructor;
 /**
  * 兼容旧调用方式，统一解析签名生成入参。
  */
-function resolveSignatureInput(input: number | OssGetSignatureInput): OssGetSignatureInput {
-  if (typeof input === "number") {
+function resolveSignatureInput(input: string | OssGetSignatureInput): OssGetSignatureInput {
+  if (typeof input === "string") {
     return { userId: input };
   }
 
@@ -142,9 +142,9 @@ class OssService {
   /**
    * 生成前端直传 OSS 所需的表单签名参数。
    */
-  async generateSignature(userId: number): Promise<OssGetSignatureResult>;
+  async generateSignature(userId: string): Promise<OssGetSignatureResult>;
   async generateSignature(input: OssGetSignatureInput): Promise<OssGetSignatureResult>;
-  async generateSignature(input: number | OssGetSignatureInput): Promise<OssGetSignatureResult> {
+  async generateSignature(input: string | OssGetSignatureInput): Promise<OssGetSignatureResult> {
     const resolvedInput = resolveSignatureInput(input);
     const now = new Date();
     const expirationDate = new Date(
@@ -162,7 +162,7 @@ class OssService {
       getStandardRegion(client.options.region),
       client.options.accessKeyId,
     );
-    const dir = normalizeOssDir(env.OSS_UPLOAD_DIR_PREFIX, resolvedInput.dir ?? String(resolvedInput.userId));
+    const dir = normalizeOssDir(env.OSS_UPLOAD_DIR_PREFIX, resolvedInput.dir ?? resolvedInput.userId);
     const policy: OssPolicy = {
       expiration: expirationDate.toISOString(),
       conditions: [

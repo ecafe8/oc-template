@@ -15,7 +15,7 @@ export interface OssPolicy {
 }
 
 export interface OssGetSignatureInput {
-  userId: number;
+  userId: string;
   dir?: string;
   expiresInSeconds?: number;
 }

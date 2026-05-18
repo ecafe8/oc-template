@@ -2,7 +2,7 @@ import { db } from "@repo/server-template/lib/db";
 import type { SiteConfig } from "@repo/server-template/lib/db/schemas";
 import { auditResults, siteAuditSnapshots, sites } from "@repo/server-template/lib/db/schemas";
 // import { startAudit } from "@repo/server-template/modules/audit/services/audit.service";
-import { and, desc, eq, isNull } from "drizzle-orm";
+import { and, count, desc, eq, isNull } from "drizzle-orm";
 import { SiteNotFoundError, SiteUrlDuplicateError } from "../errors";
 
 export interface CreateSiteInput {
@@ -54,15 +54,12 @@ export async function listSites(options: { limit?: number; offset?: number } = {
 }> {
   const { limit = 20, offset = 0 } = options;
 
-  const data = await db
-    .select()
-    .from(sites)
-    .where(isNull(sites.deletedAt))
-    .orderBy(desc(sites.createdAt))
-    .limit(limit)
-    .offset(offset);
+  const [totalResult, data] = await Promise.all([
+    db.select({ count: count() }).from(sites).where(isNull(sites.deletedAt)),
+    db.select().from(sites).where(isNull(sites.deletedAt)).orderBy(desc(sites.createdAt)).limit(limit).offset(offset),
+  ]);
 
-  return { data, total: data.length };
+  return { data, total: totalResult[0]?.count ?? 0 };
 }
 
 /**
@@ -123,15 +120,18 @@ export async function listSiteAudits(
 
   const { limit = 20, offset = 0 } = options;
 
-  const data = await db
-    .select()
-    .from(auditResults)
-    .where(eq(auditResults.siteId, siteId))
-    .orderBy(desc(auditResults.createdAt))
-    .limit(limit)
-    .offset(offset);
+  const [totalResult, data] = await Promise.all([
+    db.select({ count: count() }).from(auditResults).where(eq(auditResults.siteId, siteId)),
+    db
+      .select()
+      .from(auditResults)
+      .where(eq(auditResults.siteId, siteId))
+      .orderBy(desc(auditResults.createdAt))
+      .limit(limit)
+      .offset(offset),
+  ]);
 
-  return { data, total: data.length };
+  return { data, total: totalResult[0]?.count ?? 0 };
 }
 
 /**

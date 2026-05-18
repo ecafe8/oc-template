@@ -37,7 +37,7 @@ export default async function HonoMiddleware(c: Context, next: () => Promise<voi
       const session = await auth.api.getSession({
         headers: c.req.raw.headers,
       });
-      if (env.NODE_ENV !== "development" && session?.user.email !== "admin@auth.com")
+      if (env.NODE_ENV !== "development" && (!env.AUTH_API_DOCS_ADMIN_EMAIL || session?.user.email !== env.AUTH_API_DOCS_ADMIN_EMAIL))
         throw new Error("authentication failed");
     }
 
