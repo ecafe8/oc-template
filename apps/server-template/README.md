@@ -40,6 +40,47 @@ bun run gen:rpc-type
 - 不再生成 `exports/types.ts`。
 - 共享业务类型请从 `src/modules/*/types` 维护，并由消费方使用 `import type` 直接导入。
 
+## RPC Route Convention
+
+- 供前端 RPC 生成使用的 Hono 路由，优先保持单一链式写法。
+- 尽量使用 `new Hono().basePath("...").get(...).post(...)` 这种连续链式定义。
+- 避免在 RPC 路由里优先使用 `.route("/prefix", childRoutes)` 子路由拆分；当前 `web-app` 的 RPC 生成器对单链写法支持最稳定。
+- 路由调整后，先在 `apps/server-api` 运行 `bun run gen:rpc-type`，再到 `apps/web-app` 重新生成前端 RPC。
+
+推荐伪代码：
+
+```ts
+export const reviewRoutes = new Hono()
+  .basePath("/extraction-dictionary")
+  .get("/review-items", ...)
+  .post("/review-items/sync", ...)
+  .post("/review-items/sync/batch", ...)
+  .post("/review-items/manual-tools/verify-pending", ...)
+  .post("/review-items/manual-tools/mine-from-resource", ...)
+  .get("/review-items/:reviewItemId", ...)
+  .post("/review-items/:reviewItemId/decision", ...)
+  .get("/review-entities", ...)
+
+export type RPCReviewRoutesType = typeof reviewRoutes
+```
+
+尽量避免：
+
+```ts
+const reviewItemsRoutes = new Hono()
+  .get("/", ...)
+  .post("/sync", ...)
+
+const reviewEntitiesRoutes = new Hono().get("/", ...)
+
+export const reviewRoutes = new Hono()
+  .basePath("/extraction-dictionary")
+  .route("/review-items", reviewItemsRoutes)
+  .route("/review-entities", reviewEntitiesRoutes)
+```
+
+原因：当前前端 RPC 生成链路对单文件、单链式 Hono 路由支持最稳定。
+
 ## Accessing the Server
 Once the server is running, you can access it by navigating to the following URL in your web browser:
 ```
